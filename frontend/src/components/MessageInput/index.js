@@ -41,11 +41,11 @@ const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 const useStyles = makeStyles((theme) => ({
   mainWrapper: {
-    background: "#eee",
+    background: theme.palette.background?.messageInput || "#eee",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+    borderTop: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.down("sm")]: {
       position: "fixed",
       bottom: 0,
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   newMessageBox: {
-    background: "#eee",
+    background: theme.palette.background?.messageInput || "#eee",
     width: "100%",
     display: "flex",
     padding: "7px",
@@ -64,21 +64,30 @@ const useStyles = makeStyles((theme) => ({
   messageInputWrapper: {
     padding: 6,
     marginRight: 7,
-    background: "#fff",
+    background: theme.palette.background?.messageInputWrapper || "#fff",
     display: "flex",
     borderRadius: 20,
     flex: 1,
     position: "relative",
+    border:
+      theme.palette.type === "dark"
+        ? `1px solid ${theme.palette.divider}`
+        : "none",
   },
 
   messageInput: {
     paddingLeft: 10,
     flex: 1,
     border: "none",
+    color: theme.palette.text?.messageInput || theme.palette.text.primary,
+    "&::placeholder": {
+      color: theme.palette.text.secondary,
+      opacity: 0.7,
+    },
   },
 
   sendMessageIcons: {
-    color: "grey",
+    color: theme.palette.text.secondary,
   },
 
   uploadInput: {
@@ -91,15 +100,15 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#eee",
-    borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+    backgroundColor: theme.palette.background?.messageInput || "#eee",
+    borderTop: `1px solid ${theme.palette.divider}`,
   },
 
   emojiBox: {
     position: "absolute",
     bottom: 63,
     width: 40,
-    borderTop: "1px solid #e8e8e8",
+    borderTop: `1px solid ${theme.palette.divider}`,
   },
 
   circleLoading: {
@@ -144,7 +153,10 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     marginRight: 5,
     overflowY: "hidden",
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.05)"
+        : "rgba(0, 0, 0, 0.05)",
     borderRadius: "7.5px",
     display: "flex",
     position: "relative",
@@ -156,34 +168,40 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     whiteSpace: "pre-wrap",
     overflow: "hidden",
+    color: theme.palette.text.primary,
   },
 
   replyginContactMsgSideColor: {
     flex: "none",
     width: "4px",
-    backgroundColor: "#35cd96",
+    backgroundColor: theme.palette.type === 'dark' ? "#2dd4bf" : "#35cd96",
   },
 
   replyginSelfMsgSideColor: {
     flex: "none",
     width: "4px",
-    backgroundColor: "#6bcbef",
+    backgroundColor: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
   },
 
   messageContactName: {
     display: "flex",
-    color: "#6bcbef",
+    color: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
     fontWeight: 500,
   },
   messageQuickAnswersWrapper: {
     margin: 0,
     position: "absolute",
     bottom: "50px",
-    background: "#ffffff",
+    background: theme.palette.background?.quickAnswers || "#ffffff",
     padding: "2px",
-    border: "1px solid #CCC",
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: "4px",
     left: 0,
     width: "100%",
+    boxShadow:
+      theme.palette.type === "dark"
+        ? "0 2px 8px rgba(0, 0, 0, 0.4)"
+        : "0 2px 8px rgba(0, 0, 0, 0.1)",
     "& li": {
       listStyle: "none",
       "& a": {
@@ -192,8 +210,10 @@ const useStyles = makeStyles((theme) => ({
         textOverflow: "ellipsis",
         overflow: "hidden",
         maxHeight: "32px",
+        color: theme.palette.text.primary,
+        textDecoration: "none",
         "&:hover": {
-          background: "#F1F1F1",
+          background: theme.palette.action?.hover || "#F1F1F1",
           cursor: "pointer",
         },
       },

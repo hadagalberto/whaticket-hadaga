@@ -1,0 +1,62 @@
+/* CSS global para melhorar o tema escuro */
+
+/* Scrollbars personalizados para tema escuro */
+:root {
+  --scrollbar-thumb-light: #e8e8e8;
+  --scrollbar-track-light: #f1f1f1;
+  --scrollbar-thumb-dark: #484848;
+  --scrollbar-track-dark: #2d2d2d;
+}
+
+/* Aplicar scrollbar baseado no tema */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-dark);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-dark);
+}
+
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-light);
+  border-radius: 4px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-light);
+}
+
+/* Melhorar contraste de inputs no tema escuro */
+[data-theme="dark"] input::placeholder {
+  color: #a8a8a8 !important;
+  opacity: 0.8;
+}
+
+[data-theme="dark"] textarea::placeholder {
+  color: #a8a8a8 !important;
+  opacity: 0.8;
+}
+
+/* Melhorar seleção de texto no tema escuro */
+[data-theme="dark"] ::selection {
+  background-color: #4a9eff;
+  color: white;
+}
+
+/* Melhorar foco de elementos no tema escuro */
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus {
+  outline: 2px solid #4a9eff;
+  outline-offset: 1px;
+}

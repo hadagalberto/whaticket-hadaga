@@ -10,16 +10,6 @@ const App = () => {
 
   const theme = createTheme(
     {
-      scrollbarStyles: {
-        "&::-webkit-scrollbar": {
-          width: "8px",
-          height: "8px",
-        },
-        "&::-webkit-scrollbar-thumb": {
-          boxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
-          backgroundColor: "#e8e8e8",
-        },
-      },
       palette: {
         primary: { main: "#2576d2" },
       },
