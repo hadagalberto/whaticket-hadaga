@@ -232,7 +232,7 @@ const LoggedInLayout = ({ children }) => {
             noWrap
             className={classes.title}
           >
-            WhaTicket
+            WhatsConnect
           </Typography>
 
           <div className={classes.themeSwitchContainer}>
@@ -245,9 +245,7 @@ const LoggedInLayout = ({ children }) => {
             />
           </div>
 
-          {user.id && (
-            <NotificationsPopOver className={classes.iconButton} />
-          )}
+          {user.id && <NotificationsPopOver className={classes.iconButton} />}
 
           <div>
             <IconButton
