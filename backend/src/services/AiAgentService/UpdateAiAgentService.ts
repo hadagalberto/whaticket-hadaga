@@ -8,6 +8,7 @@ interface AiAgentUpdateData {
   systemPrompt?: string;
   temperature?: number;
   maxTokens?: number;
+  maxMessages?: number;
   isActive?: boolean;
 }
 

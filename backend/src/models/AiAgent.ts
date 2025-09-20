@@ -48,6 +48,10 @@ class AiAgent extends Model<AiAgent> {
   @Column
   maxTokens: number;
 
+  @Default(5)
+  @Column
+  maxMessages: number;
+
   @Default(true)
   @Column
   isActive: boolean;

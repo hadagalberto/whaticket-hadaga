@@ -10,6 +10,7 @@ interface AiAgentData {
   systemPrompt?: string;
   temperature?: number;
   maxTokens?: number;
+  maxMessages?: number;
   isActive?: boolean;
   queueId: number;
 }

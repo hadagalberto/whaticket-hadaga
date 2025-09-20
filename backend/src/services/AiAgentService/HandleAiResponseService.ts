@@ -1,4 +1,9 @@
 import ProcessAiMessageService from "../AiAgentService/ProcessAiMessageService";
+import CountAiMessagesService from "../AiAgentService/CountAiMessagesService";
+import {
+  CheckHumanTransferService,
+  TransferToHumanService
+} from "../AiAgentService/HumanTransferService";
 import Message from "../../models/Message";
 import Ticket from "../../models/Ticket";
 import SendWhatsAppMessage from "../WbotServices/SendWhatsAppMessage";
@@ -13,6 +18,54 @@ const HandleAiResponseService = async (
     // e se o ticket tem uma fila associada
     if (message.fromMe || !ticket.queueId) {
       return;
+    }
+
+    // Verificar se já atingiu o limite de mensagens antes de processar
+    const messageCount = await CountAiMessagesService(ticket.id);
+
+    if (messageCount.shouldTransfer) {
+      logger.info(
+        `Ticket ${ticket.id} atingiu limite de ${messageCount.maxMessages} mensagens. Transferindo para humano.`
+      );
+
+      // Buscar uma fila para transferir (diferente da atual)
+      const transferCheck = await CheckHumanTransferService(
+        "limite de mensagens atingido",
+        ticket
+      );
+
+      if (transferCheck.shouldTransfer && transferCheck.humanQueueId) {
+        // Enviar mensagem informando sobre a transferência por limite
+        if (ticket.whatsappId) {
+          await SendWhatsAppMessage({
+            body: "Percebo que sua solicitação precisa de mais atenção. Vou transferir você para um de nossos atendentes especializados que poderá ajudá-lo melhor. Aguarde um momento! 😊",
+            ticket
+          });
+        }
+
+        // Transferir o ticket para atendimento humano
+        await TransferToHumanService(ticket.id, transferCheck.humanQueueId);
+        return; // Não processar com IA após transferência
+      }
+    }
+
+    // Verificar se o usuário quer falar com um humano
+    const transferCheck = await CheckHumanTransferService(message.body, ticket);
+
+    if (transferCheck.shouldTransfer && transferCheck.humanQueueId) {
+      // Enviar mensagem de transferência
+      if (transferCheck.transferMessage && ticket.whatsappId) {
+        await SendWhatsAppMessage({
+          body: transferCheck.transferMessage,
+          ticket
+        });
+      }
+
+      // Transferir o ticket para atendimento humano
+      await TransferToHumanService(ticket.id, transferCheck.humanQueueId);
+
+      logger.info(`Ticket ${ticket.id} transferido para atendimento humano`);
+      return; // Não processar com IA após transferência
     }
 
     // Buscar as últimas mensagens da conversa para dar contexto

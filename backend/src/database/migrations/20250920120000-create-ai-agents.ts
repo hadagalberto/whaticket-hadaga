@@ -39,6 +39,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 1000
       },
+      maxMessages: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 5
+      },
       isActive: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

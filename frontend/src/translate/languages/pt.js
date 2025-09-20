@@ -506,6 +506,7 @@ const messages = {
           systemPrompt: "Prompt do Sistema",
           temperature: "Criatividade (Temperature)",
           maxTokens: "Máximo de Tokens",
+          maxMessages: "Máximo de Mensagens",
           isActive: "Ativo",
         },
         buttons: {

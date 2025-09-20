@@ -21,6 +21,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
+import { Tooltip } from "@material-ui/core";
 
 import { i18n } from "../../translate/i18n";
 
@@ -67,6 +72,10 @@ const AiAgentSchema = Yup.object().shape({
   provider: Yup.string().required("Required"),
   apiKey: Yup.string().required("Required"),
   model: Yup.string().required("Required"),
+  maxMessages: Yup.number()
+    .min(1, "Deve ser pelo menos 1")
+    .max(20, "Máximo 20 mensagens")
+    .required("Required"),
   queueId: Yup.number().required("Required"),
 });
 
@@ -81,12 +90,15 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
     systemPrompt: "",
     temperature: 0.7,
     maxTokens: 1000,
+    maxMessages: 5,
     isActive: true,
     queueId: "",
   };
 
   const [aiAgent, setAiAgent] = useState(initialState);
   const [queues, setQueues] = useState([]);
+  const [apiKeyValidation, setApiKeyValidation] = useState(null);
+  const [validatingKey, setValidatingKey] = useState(false);
 
   useEffect(() => {
     const fetchQueues = async () => {
@@ -119,6 +131,26 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
   const handleClose = () => {
     onClose();
     setAiAgent(initialState);
+    setApiKeyValidation(null);
+  };
+
+  const validateApiKey = async (provider, apiKey) => {
+    if (!provider || !apiKey) {
+      setApiKeyValidation(null);
+      return;
+    }
+
+    setValidatingKey(true);
+    try {
+      const { data } = await api.post("/ai-agents/validate-key", {
+        provider,
+        apiKey,
+      });
+      setApiKeyValidation(data);
+    } catch (err) {
+      setApiKeyValidation({ isValid: false, error: "Erro ao validar API key" });
+    }
+    setValidatingKey(false);
   };
 
   const handleSaveAiAgent = async (values) => {
@@ -133,24 +165,6 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
       toastError(err);
     }
     handleClose();
-  };
-
-  const getModelOptions = (provider) => {
-    switch (provider) {
-      case "openai":
-        return [
-          { value: "gpt-4", label: "GPT-4" },
-          { value: "gpt-4-turbo", label: "GPT-4 Turbo" },
-          { value: "gpt-3.5-turbo", label: "GPT-3.5 Turbo" },
-        ];
-      case "gemini":
-        return [
-          { value: "gemini-pro", label: "Gemini Pro" },
-          { value: "gemini-pro-vision", label: "Gemini Pro Vision" },
-        ];
-      default:
-        return [];
-    }
   };
 
   return (
@@ -226,26 +240,51 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
                     variant="outlined"
                     margin="dense"
                     className={classes.textField}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {validatingKey ? (
+                            <CircularProgress size={20} />
+                          ) : apiKeyValidation ? (
+                            <Tooltip
+                              title={
+                                apiKeyValidation.isValid
+                                  ? "API Key válida"
+                                  : apiKeyValidation.error
+                              }
+                            >
+                              {apiKeyValidation.isValid ? (
+                                <CheckCircleIcon style={{ color: "green" }} />
+                              ) : (
+                                <ErrorIcon style={{ color: "red" }} />
+                              )}
+                            </Tooltip>
+                          ) : (
+                            <IconButton
+                              onClick={() =>
+                                validateApiKey(values.provider, values.apiKey)
+                              }
+                              disabled={!values.provider || !values.apiKey}
+                              size="small"
+                            >
+                              <CheckCircleIcon />
+                            </IconButton>
+                          )}
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                  <FormControl
+                  <Field
+                    as={TextField}
+                    label={i18n.t("aiAgentModal.form.model")}
+                    name="model"
                     variant="outlined"
-                    className={classes.textField}
                     margin="dense"
-                  >
-                    <InputLabel>{i18n.t("aiAgentModal.form.model")}</InputLabel>
-                    <Field
-                      as={Select}
-                      label={i18n.t("aiAgentModal.form.model")}
-                      name="model"
-                      error={touched.model && Boolean(errors.model)}
-                    >
-                      {getModelOptions(values.provider).map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                  </FormControl>
+                    className={classes.textField}
+                    error={touched.model && Boolean(errors.model)}
+                    helperText={touched.model && errors.model}
+                    placeholder="Ex: gpt-4, gpt-3.5-turbo, gemini-pro"
+                  />
                 </div>
                 <FormControl
                   variant="outlined"
@@ -303,6 +342,17 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
                   variant="outlined"
                   margin="dense"
                   className={classes.textField}
+                />
+                <Field
+                  as={TextField}
+                  label={i18n.t("aiAgentModal.form.maxMessages")}
+                  name="maxMessages"
+                  type="number"
+                  variant="outlined"
+                  margin="dense"
+                  className={classes.textField}
+                  inputProps={{ min: 1, max: 20 }}
+                  helperText="Número máximo de mensagens antes de transferir para humano"
                 />
                 <FormControlLabel
                   control={
