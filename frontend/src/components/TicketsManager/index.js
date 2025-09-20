@@ -21,60 +21,130 @@ import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   ticketsWrapper: {
-    position: "relative",
     display: "flex",
     height: "100%",
     flexDirection: "column",
     overflow: "hidden",
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.text.primary,
-  },
-  tabsHeader: {
-    flex: "none",
     backgroundColor: theme.palette.background.paper,
   },
-  settingsIcon: {
-    alignSelf: "center",
-    marginLeft: "auto",
-    padding: 8,
+
+  searchContainer: {
+    padding: "16px 20px",
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
+
+  searchBox: {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: theme.palette.background.default,
+    borderRadius: "8px",
+    padding: "8px 12px",
+    border: `1px solid ${theme.palette.divider}`,
+    transition: "all 0.2s ease",
+    "&:hover": {
+      borderColor: theme.palette.primary.main,
+    },
+    "&:focus-within": {
+      borderColor: theme.palette.primary.main,
+      boxShadow: `0 0 0 3px ${theme.palette.primary.main}15`,
+    },
+  },
+
+  searchIcon: {
+    color: theme.palette.text.secondary,
+    marginRight: "8px",
+    fontSize: "1.2rem",
+  },
+
+  searchInput: {
+    flex: 1,
+    border: "none",
+    outline: "none",
+    backgroundColor: "transparent",
+    color: theme.palette.text.primary,
+    fontSize: "0.9rem",
+    fontFamily: '"Inter", sans-serif',
+    "&::placeholder": {
+      color: theme.palette.text.secondary,
+    },
+  },
+
+  filtersContainer: {
+    padding: "12px 20px",
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.background.paper,
+  },
+
+  tabsContainer: {
+    marginBottom: "12px",
+  },
+
+  tabsHeader: {
+    backgroundColor: theme.palette.background.default,
+    borderRadius: "8px",
+    padding: "4px",
+    "& .MuiTabs-indicator": {
+      display: "none",
+    },
+  },
+
   tab: {
-    minWidth: 120,
-    width: 120,
+    minWidth: "auto",
+    fontSize: "0.85rem",
+    fontWeight: 500,
+    textTransform: "none",
+    borderRadius: "6px",
+    margin: "0 2px",
+    fontFamily: '"Inter", sans-serif',
+    "&.Mui-selected": {
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.primary.main,
+      boxShadow:
+        theme.palette.type === "dark"
+          ? "0 2px 4px rgba(0, 0, 0, 0.3)"
+          : "0 2px 4px rgba(0, 0, 0, 0.1)",
+    },
   },
+
+  badge: {
+    "& .MuiBadge-badge": {
+      fontSize: "0.7rem",
+      minWidth: "18px",
+      height: "18px",
+      backgroundColor: theme.palette.primary.main,
+      color: "#ffffff",
+    },
+  },
+
+  ticketsContainer: {
+    flex: 1,
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+  },
+
   ticketOptionsBox: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    background: theme.palette.background.paper,
-    padding: theme.spacing(1),
-  },
-  serachInputWrapper: {
-    flex: 1,
-    background: theme.palette.background.default,
-    display: "flex",
-    borderRadius: 40,
-    padding: 4,
-    marginRight: theme.spacing(1),
-  },
-  searchIcon: {
-    color: "grey",
-    marginLeft: 6,
-    marginRight: 6,
-    alignSelf: "center",
-  },
-  searchInput: {
-    flex: 1,
-    border: "none",
-    borderRadius: 30,
-    color: theme.palette.text.primary, 
+    padding: "12px 20px",
     backgroundColor: theme.palette.background.default,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  badge: {
-    right: "-10px",
+
+  newTicketButton: {
+    borderRadius: "8px",
+    textTransform: "none",
+    fontWeight: 600,
+    fontSize: "0.85rem",
+    padding: "8px 16px",
+    boxShadow: "none",
+    fontFamily: '"Inter", sans-serif',
+    "&:hover": {
+      boxShadow: `0 4px 12px ${theme.palette.primary.main}25`,
+    },
   },
+
   show: {
     display: "block",
   },
@@ -144,67 +214,61 @@ const TicketsManager = () => {
   };
 
   return (
-    <Paper elevation={0} variant="outlined" className={classes.ticketsWrapper}>
+    <div className={classes.ticketsWrapper}>
       <NewTicketModal
         modalOpen={newTicketModalOpen}
         onClose={(e) => setNewTicketModalOpen(false)}
       />
-      <Paper elevation={0} square className={classes.tabsHeader}>
-        <Tabs
-          value={tab}
-          onChange={handleChangeTab}
-          variant="fullWidth"
-          indicatorColor="primary"
-          textColor="primary"
-          aria-label="icon label tabs example"
-        >
-          <Tab
-            value={"open"}
-            icon={<MoveToInboxIcon />}
-            label={i18n.t("tickets.tabs.open.title")}
-            classes={{ root: classes.tab }}
+
+      {/* Search Container */}
+      <div className={classes.searchContainer}>
+        <div className={classes.searchBox}>
+          <SearchIcon className={classes.searchIcon} />
+          <input
+            className={classes.searchInput}
+            placeholder="Buscar conversas..."
+            type="search"
+            onChange={handleSearch}
+            ref={searchInputRef}
           />
-          <Tab
-            value={"closed"}
-            icon={<CheckBoxIcon />}
-            label={i18n.t("tickets.tabs.closed.title")}
-            classes={{ root: classes.tab }}
-          />
-          <Tab
-            value={"search"}
-            icon={<SearchIcon />}
-            label={i18n.t("tickets.tabs.search.title")}
-            classes={{ root: classes.tab }}
-          />
-        </Tabs>
-      </Paper>
-      <Paper square elevation={0} className={classes.ticketOptionsBox}>
-        {tab === "search" ? (
-          <div className={classes.serachInputWrapper}>
-            <SearchIcon className={classes.searchIcon} />
-            <InputBase
-              className={classes.searchInput}
-              inputRef={searchInputRef}
-              placeholder={i18n.t("tickets.search.placeholder")}
-              type="search"
-              onChange={handleSearch}
-            />
-          </div>
-        ) : (
-          <>
+        </div>
+      </div>
+
+      {/* Filters Container */}
+      <div className={classes.filtersContainer}>
+        {/* Main Tabs */}
+        <div className={classes.tabsContainer}>
+          <Paper elevation={0} className={classes.tabsHeader}>
+            <Tabs
+              value={tab}
+              onChange={handleChangeTab}
+              variant="fullWidth"
+              className={classes.tabs}
+            >
+              <Tab value={"open"} label="Abertas" className={classes.tab} />
+              <Tab value={"closed"} label="Fechadas" className={classes.tab} />
+              <Tab value={"search"} label="Busca" className={classes.tab} />
+            </Tabs>
+          </Paper>
+        </div>
+
+        {/* Action Buttons */}
+        {tab !== "search" && (
+          <div className={classes.ticketOptionsBox}>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               onClick={() => setNewTicketModalOpen(true)}
+              className={classes.newTicketButton}
             >
-              {i18n.t("ticketsManager.buttons.newTicket")}
+              Nova Conversa
             </Button>
             <Can
               role={user.profile}
               perform="tickets-manager:showall"
               yes={() => (
                 <FormControlLabel
-                  label={i18n.t("tickets.buttons.showAll")}
+                  label="Todas"
                   labelPlacement="start"
                   control={
                     <Switch
@@ -220,49 +284,56 @@ const TicketsManager = () => {
                 />
               )}
             />
-          </>
+          </div>
         )}
+
+        {/* Queue Filter */}
         <TicketsQueueSelect
-          style={{ marginLeft: 6 }}
           selectedQueueIds={selectedQueueIds}
           userQueues={user?.queues}
           onChange={(values) => setSelectedQueueIds(values)}
         />
-      </Paper>
-      <TabPanel value={tab} name="open" className={classes.ticketsWrapper}>
-        <Tabs
-          value={tabOpen}
-          onChange={handleChangeTabOpen}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-        >
-          <Tab
-            label={
-              <Badge
-                className={classes.badge}
-                badgeContent={openCount}
-                color="primary"
-              >
-                {i18n.t("ticketsList.assignedHeader")}
-              </Badge>
-            }
-            value={"open"}
-          />
-          <Tab
-            label={
-              <Badge
-                className={classes.badge}
-                badgeContent={pendingCount}
-                color="secondary"
-              >
-                {i18n.t("ticketsList.pendingHeader")}
-              </Badge>
-            }
-            value={"pending"}
-          />
-        </Tabs>
-        <Paper className={classes.ticketsWrapper}>
+      </div>
+
+      {/* Tickets Container */}
+      <div className={classes.ticketsContainer}>
+        <TabPanel value={tab} name="open">
+          {/* Sub-tabs for Open tickets */}
+          <Tabs
+            value={tabOpen}
+            onChange={handleChangeTabOpen}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="primary"
+          >
+            <Tab
+              label={
+                <Badge
+                  className={classes.badge}
+                  badgeContent={openCount}
+                  color="primary"
+                >
+                  Em Atendimento
+                </Badge>
+              }
+              value={"open"}
+              className={classes.tab}
+            />
+            <Tab
+              label={
+                <Badge
+                  className={classes.badge}
+                  badgeContent={pendingCount}
+                  color="secondary"
+                >
+                  Aguardando
+                </Badge>
+              }
+              value={"pending"}
+              className={classes.tab}
+            />
+          </Tabs>
+
           <TicketsList
             status="open"
             showAll={showAllTickets}
@@ -276,23 +347,25 @@ const TicketsManager = () => {
             updateCount={(val) => setPendingCount(val)}
             style={applyPanelStyle("pending")}
           />
-        </Paper>
-      </TabPanel>
-      <TabPanel value={tab} name="closed" className={classes.ticketsWrapper}>
-        <TicketsList
-          status="closed"
-          showAll={true}
-          selectedQueueIds={selectedQueueIds}
-        />
-      </TabPanel>
-      <TabPanel value={tab} name="search" className={classes.ticketsWrapper}>
-        <TicketsList
-          searchParam={searchParam}
-          showAll={true}
-          selectedQueueIds={selectedQueueIds}
-        />
-      </TabPanel>
-    </Paper>
+        </TabPanel>
+
+        <TabPanel value={tab} name="closed">
+          <TicketsList
+            status="closed"
+            showAll={true}
+            selectedQueueIds={selectedQueueIds}
+          />
+        </TabPanel>
+
+        <TabPanel value={tab} name="search">
+          <TicketsList
+            searchParam={searchParam}
+            showAll={true}
+            selectedQueueIds={selectedQueueIds}
+          />
+        </TabPanel>
+      </div>
+    </div>
   );
 };
 

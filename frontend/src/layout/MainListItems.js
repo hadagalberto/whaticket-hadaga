@@ -25,14 +25,22 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     borderRadius: "12px",
     margin: "4px 8px",
+    transition: "all 0.2s ease",
     "&:hover": {
-      backgroundColor: "rgba(99, 102, 241, 0.08)",
+      backgroundColor:
+        theme.palette.type === "dark"
+          ? "rgba(99, 102, 241, 0.12)"
+          : "rgba(99, 102, 241, 0.08)",
       "& .MuiListItemIcon-root": {
         color: "#6366f1",
       },
+      transform: "translateX(4px)",
     },
     "&.Mui-selected": {
-      backgroundColor: "rgba(99, 102, 241, 0.12)",
+      backgroundColor:
+        theme.palette.type === "dark"
+          ? "rgba(99, 102, 241, 0.2)"
+          : "rgba(99, 102, 241, 0.12)",
       "& .MuiListItemIcon-root": {
         color: "#6366f1",
       },
@@ -44,14 +52,14 @@ const useStyles = makeStyles((theme) => ({
   },
   listItemIcon: {
     minWidth: "40px",
-    color: "#6b7280",
+    color: theme.palette.text.secondary,
     transition: "color 0.2s ease",
   },
   listItemText: {
     "& .MuiListItemText-primary": {
       fontSize: "0.9rem",
       fontWeight: 500,
-      color: "#374151",
+      color: theme.palette.text.primary,
     },
   },
 }));

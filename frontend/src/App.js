@@ -3,6 +3,7 @@ import Routes from "./routes";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/dark-theme.css";
 import "./assets/modern-animations.css";
+import "./assets/chatwoot-layout.css";
 
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { ptBR } from "@material-ui/core/locale";
@@ -44,14 +45,6 @@ const App = () => {
           main: "#10b981",
           light: "#34d399",
           dark: "#059669",
-        },
-        background: {
-          default: "#f9fafb",
-          paper: "#ffffff",
-        },
-        text: {
-          primary: "#1f2937",
-          secondary: "#6b7280",
         },
       },
       typography: {

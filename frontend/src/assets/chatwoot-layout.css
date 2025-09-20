@@ -1,0 +1,309 @@
+/* SupportHub - Layout de Tickets estilo Chatwoot */
+
+/* Layout principal de conversas */
+.conversation-layout {
+  display: flex;
+  height: calc(100vh - 64px);
+  background-color: var(--bg-light);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .conversation-layout {
+  background-color: var(--bg-dark);
+}
+
+/* Sidebar de conversas */
+.conversations-sidebar {
+  width: 380px;
+  min-width: 380px;
+  background-color: var(--surface-light);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .conversations-sidebar {
+  background-color: var(--surface-dark);
+  border-right-color: #4b5563;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Header da sidebar */
+.sidebar-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--surface-light);
+}
+
+[data-theme="dark"] .sidebar-header {
+  background-color: var(--surface-dark);
+  border-bottom-color: #4b5563;
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary-light);
+  font-family: "Inter", sans-serif;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .sidebar-title {
+  color: var(--text-primary-dark);
+}
+
+.sidebar-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary-light);
+  font-family: "Inter", sans-serif;
+}
+
+[data-theme="dark"] .sidebar-subtitle {
+  color: var(--text-secondary-dark);
+}
+
+/* Campo de busca moderno */
+.modern-search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.modern-search-box:hover {
+  border-color: var(--primary-main);
+}
+
+.modern-search-box:focus-within {
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="dark"] .modern-search-box {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+[data-theme="dark"] .modern-search-box:hover,
+[data-theme="dark"] .modern-search-box:focus-within {
+  border-color: var(--primary-main);
+}
+
+/* Lista de tickets estilo Chatwoot */
+.ticket-list-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.ticket-list-item:hover {
+  background-color: rgba(99, 102, 241, 0.04);
+}
+
+.ticket-list-item.active {
+  background-color: rgba(99, 102, 241, 0.08);
+  border-right: 3px solid var(--primary-main);
+}
+
+[data-theme="dark"] .ticket-list-item {
+  border-bottom-color: #4b5563;
+}
+
+[data-theme="dark"] .ticket-list-item:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+[data-theme="dark"] .ticket-list-item.active {
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
+/* Avatar de contato */
+.contact-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-main) 0%,
+    var(--primary-light) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+/* Informações do ticket */
+.ticket-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ticket-contact-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary-light);
+  margin-bottom: 4px;
+  font-family: "Inter", sans-serif;
+}
+
+[data-theme="dark"] .ticket-contact-name {
+  color: var(--text-primary-dark);
+}
+
+.ticket-last-message {
+  font-size: 0.85rem;
+  color: var(--text-secondary-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+[data-theme="dark"] .ticket-last-message {
+  color: var(--text-secondary-dark);
+}
+
+/* Status e timestamp */
+.ticket-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 12px;
+}
+
+.ticket-timestamp {
+  font-size: 0.75rem;
+  color: var(--text-secondary-light);
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .ticket-timestamp {
+  color: var(--text-secondary-dark);
+}
+
+.ticket-status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ticket-status-open {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.ticket-status-pending {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+.ticket-status-closed {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+}
+
+/* Área de conversa vazia */
+.empty-conversation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  color: var(--text-secondary-light);
+  padding: 40px 20px;
+}
+
+[data-theme="dark"] .empty-conversation {
+  background-color: var(--bg-dark);
+  color: var(--text-secondary-dark);
+}
+
+.empty-state-icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 24px;
+  opacity: 0.6;
+  color: var(--text-secondary-light);
+}
+
+[data-theme="dark"] .empty-state-icon {
+  color: var(--text-secondary-dark);
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary-light);
+  font-family: "Inter", sans-serif;
+}
+
+[data-theme="dark"] .empty-state-title {
+  color: var(--text-primary-dark);
+}
+
+.empty-state-subtitle {
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 400px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Tabs modernas */
+.modern-tabs {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+[data-theme="dark"] .modern-tabs {
+  background-color: #374151;
+}
+
+.modern-tab {
+  border-radius: 6px;
+  text-transform: none;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.modern-tab.selected {
+  background-color: white;
+  color: var(--primary-main);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .modern-tab.selected {
+  background-color: var(--surface-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .conversations-sidebar {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .conversations-sidebar.hidden {
+    display: none;
+  }
+}

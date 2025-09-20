@@ -137,3 +137,125 @@
   outline: 2px solid #4a9eff;
   outline-offset: 1px;
 }
+
+/* Tema escuro para componentes Material-UI */
+[data-theme="dark"] .MuiDrawer-paper {
+  background-color: var(--surface-dark) !important;
+  border-right-color: #4b5563 !important;
+}
+
+[data-theme="dark"] .MuiAppBar-root {
+  background-color: var(--surface-dark) !important;
+  border-bottom-color: #4b5563 !important;
+}
+
+[data-theme="dark"] .MuiListItem-root {
+  color: var(--text-primary-dark) !important;
+}
+
+[data-theme="dark"] .MuiListItem-root:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+[data-theme="dark"] .MuiListItemIcon-root {
+  color: var(--text-secondary-dark) !important;
+}
+
+[data-theme="dark"] .MuiListItemText-primary {
+  color: var(--text-primary-dark) !important;
+}
+
+[data-theme="dark"] .MuiDivider-root {
+  background-color: #4b5563 !important;
+}
+
+[data-theme="dark"] .MuiTypography-root {
+  color: var(--text-primary-dark) !important;
+}
+
+[data-theme="dark"] .MuiIconButton-root {
+  color: var(--text-secondary-dark) !important;
+}
+
+[data-theme="dark"] .MuiTextField-root .MuiOutlinedInput-root {
+  background-color: #374151 !important;
+  color: var(--text-primary-dark) !important;
+}
+
+[data-theme="dark"] .MuiTextField-root .MuiOutlinedInput-root fieldset {
+  border-color: #4b5563 !important;
+}
+
+[data-theme="dark"] .MuiTextField-root .MuiInputLabel-root {
+  color: var(--text-secondary-dark) !important;
+}
+
+/* Menu lateral específico */
+[data-theme="dark"] .modern-sidebar {
+  background: linear-gradient(
+    180deg,
+    var(--surface-dark) 0%,
+    var(--bg-dark) 100%
+  ) !important;
+  border-right-color: #4b5563 !important;
+}
+
+[data-theme="dark"] .modern-sidebar-item:hover {
+  background: rgba(99, 102, 241, 0.12) !important;
+}
+
+[data-theme="dark"] .modern-sidebar-item.active {
+  background: rgba(99, 102, 241, 0.2) !important;
+  color: #8b5cf6 !important;
+}
+
+/* Correções específicas para o drawer */
+[data-theme="dark"] .MuiDrawer-paper .MuiList-root {
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiListItem-root {
+  color: var(--text-primary-dark) !important;
+  border-radius: 12px !important;
+  margin: 4px 8px !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiListItem-root:hover {
+  background-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiListItemIcon-root {
+  color: var(--text-secondary-dark) !important;
+  min-width: 40px !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiListItemIcon-root:hover {
+  color: #6366f1 !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiListItemText-primary {
+  color: var(--text-primary-dark) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+/* Header do drawer */
+[data-theme="dark"] .MuiDrawer-paper > div:first-child {
+  background-color: var(--surface-dark) !important;
+  border-bottom: 1px solid #4b5563 !important;
+}
+
+[data-theme="dark"] .MuiDrawer-paper .MuiTypography-h6 {
+  color: var(--text-primary-dark) !important;
+  font-weight: 600 !important;
+}
+
+/* Melhorar contraste geral */
+[data-theme="dark"] body {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-primary-dark) !important;
+}
+
+[data-theme="dark"] #root {
+  background-color: var(--bg-dark) !important;
+}

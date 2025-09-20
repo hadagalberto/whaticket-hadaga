@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     padding: "0 16px",
     minHeight: "64px",
-    background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
-    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: theme.palette.background.paper,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: "#ffffff",
+    color: theme.palette.text.primary,
     fontWeight: 600,
     fontSize: "1.25rem",
     fontFamily: '"Inter", sans-serif',
@@ -93,9 +93,12 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: "#ffffff",
-    borderRight: "1px solid #e5e7eb",
-    boxShadow: "4px 0 20px rgba(0, 0, 0, 0.05)",
+    backgroundColor: theme.palette.background.paper,
+    borderRight: `1px solid ${theme.palette.divider}`,
+    boxShadow:
+      theme.palette.type === "dark"
+        ? "4px 0 20px rgba(0, 0, 0, 0.25)"
+        : "4px 0 20px rgba(0, 0, 0, 0.05)",
   },
   drawerPaperClose: {
     overflowX: "hidden",
@@ -219,7 +222,7 @@ const LoggedInLayout = ({ children }) => {
           </Typography>
           <IconButton
             onClick={() => setDrawerOpen(!drawerOpen)}
-            style={{ color: "#ffffff" }}
+            style={{ color: theme.palette.text.secondary }}
           >
             <ChevronLeftIcon />
           </IconButton>
