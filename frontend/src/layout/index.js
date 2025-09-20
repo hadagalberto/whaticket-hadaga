@@ -222,7 +222,7 @@ const LoggedInLayout = ({ children }) => {
           </Typography>
           <IconButton
             onClick={() => setDrawerOpen(!drawerOpen)}
-            style={{ color: theme.palette.text.secondary }}
+            style={{ color: "#6b7280" }}
           >
             <ChevronLeftIcon />
           </IconButton>
