@@ -288,6 +288,7 @@ const messages = {
           contacts: "Contatos",
           quickAnswers: "Respostas Rápidas",
           queues: "Filas",
+          aiAgents: "Agentes de IA",
           administration: "Administração",
           users: "Usuários",
           settings: "Configurações",
@@ -463,6 +464,56 @@ const messages = {
           "Esta cor já está em uso, escolha outra.",
         ERR_WAPP_GREETING_REQUIRED:
           "A mensagem de saudação é obrigatório quando há mais de uma fila.",
+      },
+      aiAgents: {
+        title: "Agentes de IA",
+        searchPlaceholder: "Pesquisar agentes...",
+        toasts: {
+          deleted: "Agente de IA deletado com sucesso.",
+        },
+        confirmationModal: {
+          deleteTitle: "Deletar",
+          deleteMessage: "Tem certeza? Essa ação não pode ser desfeita.",
+        },
+        buttons: {
+          add: "Adicionar Agente",
+        },
+        table: {
+          name: "Nome",
+          provider: "Provedor",
+          model: "Modelo",
+          queue: "Fila",
+          status: "Status",
+          actions: "Ações",
+          noData: "Nenhum agente de IA configurado.",
+        },
+        status: {
+          active: "Ativo",
+          inactive: "Inativo",
+        },
+      },
+      aiAgentModal: {
+        title: {
+          add: "Adicionar Agente de IA",
+          edit: "Editar Agente de IA",
+        },
+        form: {
+          name: "Nome",
+          provider: "Provedor de IA",
+          apiKey: "Chave da API",
+          model: "Modelo",
+          queue: "Fila",
+          systemPrompt: "Prompt do Sistema",
+          temperature: "Criatividade (Temperature)",
+          maxTokens: "Máximo de Tokens",
+          isActive: "Ativo",
+        },
+        buttons: {
+          okAdd: "Adicionar",
+          okEdit: "Salvar",
+          cancel: "Cancelar",
+        },
+        success: "Agente de IA salvo com sucesso.",
       },
     },
   },

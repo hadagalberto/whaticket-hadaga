@@ -8,13 +8,15 @@ import {
   AutoIncrement,
   AllowNull,
   Unique,
-  BelongsToMany
+  BelongsToMany,
+  HasOne
 } from "sequelize-typescript";
 import User from "./User";
 import UserQueue from "./UserQueue";
 
 import Whatsapp from "./Whatsapp";
 import WhatsappQueue from "./WhatsappQueue";
+import AiAgent from "./AiAgent";
 
 @Table
 class Queue extends Model<Queue> {
@@ -47,6 +49,9 @@ class Queue extends Model<Queue> {
 
   @BelongsToMany(() => User, () => UserQueue)
   users: Array<User & { UserQueue: UserQueue }>;
+
+  @HasOne(() => AiAgent)
+  aiAgent: AiAgent;
 }
 
 export default Queue;
