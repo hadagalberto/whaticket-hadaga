@@ -1,8 +1,22 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
 module.exports = {
-  up: (queryInterface: QueryInterface) => {
-    return queryInterface.createTable("AiAgents", {
+  up: async (queryInterface: QueryInterface) => {
+    // Verificar se existem filas
+    const [queues] = await queryInterface.sequelize.query(
+      "SELECT id FROM Queues ORDER BY id LIMIT 1"
+    );
+
+    if (queues.length === 0) {
+      throw new Error(
+        "No queues found. Please create at least one queue before running this migration."
+      );
+    }
+
+    const defaultQueueId = (queues[0] as any).id;
+
+    // Criar tabela AiAgents completa
+    await queryInterface.createTable("AiAgents", {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -56,6 +70,14 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
+      transferQueueId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: defaultQueueId,
+        references: { model: "Queues", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false
@@ -67,7 +89,7 @@ module.exports = {
     });
   },
 
-  down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable("AiAgents");
+  down: async (queryInterface: QueryInterface) => {
+    await queryInterface.dropTable("AiAgents");
   }
 };
