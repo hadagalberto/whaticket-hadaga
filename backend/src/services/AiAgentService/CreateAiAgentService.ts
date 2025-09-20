@@ -13,17 +13,23 @@ interface AiAgentData {
   maxMessages?: number;
   isActive?: boolean;
   queueId: number;
+  transferQueueId: number;
 }
 
 const CreateAiAgentService = async (
   aiAgentData: AiAgentData
 ): Promise<AiAgent> => {
-  const { queueId, provider, apiKey } = aiAgentData;
+  const { queueId, transferQueueId, provider, apiKey } = aiAgentData;
 
-  // Verificar se a fila existe
+  // Verificar se as filas existem
   const queue = await Queue.findByPk(queueId);
   if (!queue) {
     throw new Error("Queue not found");
+  }
+
+  const transferQueue = await Queue.findByPk(transferQueueId);
+  if (!transferQueue) {
+    throw new Error("Transfer queue not found");
   }
 
   // Verificar se já existe um agente para esta fila

@@ -27,8 +27,10 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
       systemPrompt,
       temperature,
       maxTokens,
+      maxMessages,
       isActive,
-      queueId
+      queueId,
+      transferQueueId
     } = req.body;
 
     const aiAgent = await CreateAiAgentService({
@@ -39,8 +41,10 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
       systemPrompt,
       temperature,
       maxTokens,
+      maxMessages,
       isActive,
-      queueId
+      queueId,
+      transferQueueId
     });
 
     const io = getIO();

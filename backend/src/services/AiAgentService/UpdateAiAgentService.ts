@@ -9,6 +9,7 @@ interface AiAgentUpdateData {
   temperature?: number;
   maxTokens?: number;
   maxMessages?: number;
+  transferQueueId?: number;
   isActive?: boolean;
 }
 

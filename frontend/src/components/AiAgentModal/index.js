@@ -77,6 +77,7 @@ const AiAgentSchema = Yup.object().shape({
     .max(20, "Máximo 20 mensagens")
     .required("Required"),
   queueId: Yup.number().required("Required"),
+  transferQueueId: Yup.number().required("Required"),
 });
 
 const AiAgentModal = ({ open, onClose, aiAgentId }) => {
@@ -93,6 +94,7 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
     maxMessages: 5,
     isActive: true,
     queueId: "",
+    transferQueueId: "",
   };
 
   const [aiAgent, setAiAgent] = useState(initialState);
@@ -297,6 +299,29 @@ const AiAgentModal = ({ open, onClose, aiAgentId }) => {
                     label={i18n.t("aiAgentModal.form.queue")}
                     name="queueId"
                     error={touched.queueId && Boolean(errors.queueId)}
+                  >
+                    {queues.map((queue) => (
+                      <MenuItem key={queue.id} value={queue.id}>
+                        {queue.name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </FormControl>
+                <FormControl
+                  variant="outlined"
+                  className={classes.textField}
+                  margin="dense"
+                >
+                  <InputLabel>
+                    {i18n.t("aiAgentModal.form.transferQueue")}
+                  </InputLabel>
+                  <Field
+                    as={Select}
+                    label={i18n.t("aiAgentModal.form.transferQueue")}
+                    name="transferQueueId"
+                    error={
+                      touched.transferQueueId && Boolean(errors.transferQueueId)
+                    }
                   >
                     {queues.map((queue) => (
                       <MenuItem key={queue.id} value={queue.id}>

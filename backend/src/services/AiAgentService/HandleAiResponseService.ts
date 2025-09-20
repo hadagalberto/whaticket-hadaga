@@ -25,16 +25,13 @@ const HandleAiResponseService = async (
 
     if (messageCount.shouldTransfer) {
       logger.info(
-        `Ticket ${ticket.id} atingiu limite de ${messageCount.maxMessages} mensagens. Transferindo para humano.`
+        `Ticket ${ticket.id} atingiu limite de ${messageCount.maxMessages} mensagens. Transferindo para fila configurada.`
       );
 
-      // Buscar uma fila para transferir (diferente da atual)
-      const transferCheck = await CheckHumanTransferService(
-        "limite de mensagens atingido",
-        ticket
-      );
+      // Usar a fila de transferência configurada no agente
+      const transferQueueId = messageCount.transferQueueId;
 
-      if (transferCheck.shouldTransfer && transferCheck.humanQueueId) {
+      if (transferQueueId) {
         // Enviar mensagem informando sobre a transferência por limite
         if (ticket.whatsappId) {
           await SendWhatsAppMessage({
@@ -43,8 +40,8 @@ const HandleAiResponseService = async (
           });
         }
 
-        // Transferir o ticket para atendimento humano
-        await TransferToHumanService(ticket.id, transferCheck.humanQueueId);
+        // Transferir o ticket para a fila configurada
+        await TransferToHumanService(ticket.id, transferQueueId);
         return; // Não processar com IA após transferência
       }
     }

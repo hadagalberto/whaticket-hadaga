@@ -61,8 +61,16 @@ class AiAgent extends Model<AiAgent> {
   @Column
   queueId: number;
 
+  @ForeignKey(() => Queue)
+  @AllowNull(false)
+  @Column
+  transferQueueId: number;
+
   @BelongsTo(() => Queue)
   queue: Queue;
+
+  @BelongsTo(() => Queue, "transferQueueId")
+  transferQueue: Queue;
 
   @CreatedAt
   createdAt: Date;

@@ -8,6 +8,7 @@ interface MessageCountResult {
   aiMessageCount: number;
   shouldTransfer: boolean;
   maxMessages: number;
+  transferQueueId?: number;
 }
 
 const CountAiMessagesService = async (
@@ -35,7 +36,8 @@ const CountAiMessagesService = async (
       return {
         aiMessageCount: 0,
         shouldTransfer: false,
-        maxMessages: 0
+        maxMessages: 0,
+        transferQueueId: undefined
       };
     }
 
@@ -61,14 +63,16 @@ const CountAiMessagesService = async (
     return {
       aiMessageCount,
       shouldTransfer,
-      maxMessages
+      maxMessages,
+      transferQueueId: aiAgent.transferQueueId
     };
   } catch (error) {
     logger.error("Erro ao contar mensagens da IA:", error);
     return {
       aiMessageCount: 0,
       shouldTransfer: false,
-      maxMessages: 0
+      maxMessages: 0,
+      transferQueueId: undefined
     };
   }
 };
