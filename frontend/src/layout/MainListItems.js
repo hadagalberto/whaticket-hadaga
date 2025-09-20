@@ -97,7 +97,6 @@ const MainListItems = (props) => {
   const { whatsApps } = useContext(WhatsAppsContext);
   const { user } = useContext(AuthContext);
   const [connectionWarning, setConnectionWarning] = useState(false);
-  const classes = useStyles();
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

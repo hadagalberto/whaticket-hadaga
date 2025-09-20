@@ -1,12 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography, Divider } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import TicketsManager from "../../components/TicketsManager/";
 import Ticket from "../../components/Ticket/";
-
-import { i18n } from "../../translate/i18n";
 
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
