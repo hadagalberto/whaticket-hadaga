@@ -42,8 +42,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   messagesList: {
-    backgroundImage: theme.palette.type === 'dark' ? 'none' : `url(${whatsBackground})`,
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.background?.chat || "#0d1117" : 'transparent',
+    backgroundImage:
+      theme.palette.type === "dark" ? "none" : `url(${whatsBackground})`,
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.background?.chat || "#0d1117"
+        : "transparent",
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -123,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
   quotedSideColorLeft: {
     flex: "none",
     width: "4px",
-    backgroundColor: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
+    backgroundColor: theme.palette.type === "dark" ? "#4a9eff" : "#6bcbef",
   },
 
   messageRight: {
@@ -183,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
   quotedSideColorRight: {
     flex: "none",
     width: "4px",
-    backgroundColor: theme.palette.type === 'dark' ? "#2dd4bf" : "#35cd96",
+    backgroundColor: theme.palette.type === "dark" ? "#2dd4bf" : "#35cd96",
   },
 
   messageActionsButton: {
@@ -198,7 +202,7 @@ const useStyles = makeStyles((theme) => ({
 
   messageContactName: {
     display: "flex",
-    color: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
+    color: theme.palette.type === "dark" ? "#4a9eff" : "#6bcbef",
     fontWeight: 500,
   },
 
@@ -478,7 +482,7 @@ const MessagesList = ({ ticketId, isGroup }) => {
       }
       return <VcardPreview contact={contact} numbers={obj[0]?.number} />;
     } else if (
-    /*else if (message.mediaType === "multi_vcard") {
+      /*else if (message.mediaType === "multi_vcard") {
       console.log("multi_vcard")
       console.log(message)
     	

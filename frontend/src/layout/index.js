@@ -38,13 +38,17 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+    boxShadow: "0 4px 20px rgba(99, 102, 241, 0.15)",
   },
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    minHeight: "48px",
+    justifyContent: "space-between",
+    padding: "0 16px",
+    minHeight: "64px",
+    background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -52,7 +56,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    borderBottom: "1px solid #e5e7eb",
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -64,14 +70,20 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
-    color: theme.palette.text.primary,
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+    },
   },
   menuButtonHidden: {
     display: "none",
   },
   title: {
     flexGrow: 1,
-    color: theme.palette.text.primary,
+    color: "#ffffff",
+    fontWeight: 600,
+    fontSize: "1.25rem",
+    fontFamily: '"Inter", sans-serif',
   },
   drawerPaper: {
     position: "relative",
@@ -81,7 +93,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#ffffff",
+    borderRight: "1px solid #e5e7eb",
+    boxShadow: "4px 0 20px rgba(0, 0, 0, 0.05)",
   },
   drawerPaperClose: {
     overflowX: "hidden",
@@ -95,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBarSpacer: {
-    minHeight: "48px",
+    minHeight: "64px",
   },
   content: {
     flex: 1,
@@ -195,7 +209,18 @@ const LoggedInLayout = ({ children }) => {
         open={drawerOpen}
       >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+          <Typography
+            component="h1"
+            variant="h6"
+            noWrap
+            className={classes.title}
+          >
+            SupportHub
+          </Typography>
+          <IconButton
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            style={{ color: "#ffffff" }}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>
@@ -232,7 +257,7 @@ const LoggedInLayout = ({ children }) => {
             noWrap
             className={classes.title}
           >
-            WhatsConnect
+            SupportHub
           </Typography>
 
           <div className={classes.themeSwitchContainer}>

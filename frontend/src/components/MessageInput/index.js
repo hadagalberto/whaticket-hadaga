@@ -174,18 +174,18 @@ const useStyles = makeStyles((theme) => ({
   replyginContactMsgSideColor: {
     flex: "none",
     width: "4px",
-    backgroundColor: theme.palette.type === 'dark' ? "#2dd4bf" : "#35cd96",
+    backgroundColor: theme.palette.type === "dark" ? "#2dd4bf" : "#35cd96",
   },
 
   replyginSelfMsgSideColor: {
     flex: "none",
     width: "4px",
-    backgroundColor: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
+    backgroundColor: theme.palette.type === "dark" ? "#4a9eff" : "#6bcbef",
   },
 
   messageContactName: {
     display: "flex",
-    color: theme.palette.type === 'dark' ? "#4a9eff" : "#6bcbef",
+    color: theme.palette.type === "dark" ? "#4a9eff" : "#6bcbef",
     fontWeight: 500,
   },
   messageQuickAnswersWrapper: {

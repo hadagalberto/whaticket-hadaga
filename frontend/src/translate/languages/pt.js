@@ -18,7 +18,7 @@ const messages = {
         },
       },
       login: {
-        title: "Login",
+        title: "SupportHub",
         form: {
           email: "Email",
           password: "Senha",
@@ -41,15 +41,15 @@ const messages = {
         },
         messages: {
           inAttendance: {
-            title: "Em Atendimento"
+            title: "Em Atendimento",
           },
           waiting: {
-            title: "Aguardando"
+            title: "Aguardando",
           },
           closed: {
-            title: "Finalizado"
-          }
-        }
+            title: "Finalizado",
+          },
+        },
       },
       connections: {
         title: "Conexões",
@@ -64,7 +64,7 @@ const messages = {
             "Tem certeza? Você precisará ler o QR Code novamente.",
         },
         buttons: {
-          add: "Adicionar WhatsApp",
+          add: "Adicionar Conexão",
           disconnect: "desconectar",
           tryAgain: "Tentar novamente",
           qrcode: "QR CODE",
@@ -102,20 +102,20 @@ const messages = {
       },
       whatsappModal: {
         title: {
-          add: "Adicionar WhatsApp",
-          edit: "Editar WhatsApp",
+          add: "Adicionar Conexão",
+          edit: "Editar Conexão",
         },
         form: {
           name: "Nome",
           default: "Padrão",
-          farewellMessage: "Mensagem de despedida"
+          farewellMessage: "Mensagem de despedida",
         },
         buttons: {
           okAdd: "Adicionar",
           okEdit: "Salvar",
           cancel: "Cancelar",
         },
-        success: "WhatsApp salvo com sucesso.",
+        success: "Conexão salva com sucesso.",
       },
       qrCode: {
         message: "Leia o QrCode para iniciar a sessão",
@@ -388,7 +388,8 @@ const messages = {
         },
       },
       messagesInput: {
-        placeholderOpen: "Digite uma mensagem ou tecle ''/'' para utilizar as respostas rápidas cadastrada",
+        placeholderOpen:
+          "Digite uma mensagem ou tecle ''/'' para utilizar as respostas rápidas cadastrada",
         placeholderClosed:
           "Reabra ou aceite esse ticket para enviar uma mensagem.",
         signMessage: "Assinar",

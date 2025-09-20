@@ -6,10 +6,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
-import { Badge } from "@material-ui/core";
+import { Badge, makeStyles } from "@material-ui/core";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
-import SyncAltIcon from "@material-ui/icons/SyncAlt";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import LinkIcon from "@material-ui/icons/Link";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
@@ -21,8 +21,44 @@ import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
 import { AuthContext } from "../context/Auth/AuthContext";
 import { Can } from "../components/Can";
 
+const useStyles = makeStyles((theme) => ({
+  listItem: {
+    borderRadius: "12px",
+    margin: "4px 8px",
+    "&:hover": {
+      backgroundColor: "rgba(99, 102, 241, 0.08)",
+      "& .MuiListItemIcon-root": {
+        color: "#6366f1",
+      },
+    },
+    "&.Mui-selected": {
+      backgroundColor: "rgba(99, 102, 241, 0.12)",
+      "& .MuiListItemIcon-root": {
+        color: "#6366f1",
+      },
+      "& .MuiListItemText-primary": {
+        color: "#6366f1",
+        fontWeight: 600,
+      },
+    },
+  },
+  listItemIcon: {
+    minWidth: "40px",
+    color: "#6b7280",
+    transition: "color 0.2s ease",
+  },
+  listItemText: {
+    "& .MuiListItemText-primary": {
+      fontSize: "0.9rem",
+      fontWeight: 500,
+      color: "#374151",
+    },
+  },
+}));
+
 function ListItemLink(props) {
   const { icon, primary, to, className } = props;
+  const classes = useStyles();
 
   const renderLink = React.useMemo(
     () =>
@@ -34,9 +70,15 @@ function ListItemLink(props) {
 
   return (
     <li>
-      <ListItem button component={renderLink} className={className}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
+      <ListItem
+        button
+        component={renderLink}
+        className={`${classes.listItem} ${className || ""}`}
+      >
+        {icon ? (
+          <ListItemIcon className={classes.listItemIcon}>{icon}</ListItemIcon>
+        ) : null}
+        <ListItemText primary={primary} className={classes.listItemText} />
       </ListItem>
     </li>
   );
@@ -47,6 +89,7 @@ const MainListItems = (props) => {
   const { whatsApps } = useContext(WhatsAppsContext);
   const { user } = useContext(AuthContext);
   const [connectionWarning, setConnectionWarning] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -82,14 +125,14 @@ const MainListItems = (props) => {
         primary={i18n.t("mainDrawer.listItems.connections")}
         icon={
           <Badge badgeContent={connectionWarning ? "!" : 0} color="error">
-            <SyncAltIcon />
+            <LinkIcon />
           </Badge>
         }
       />
       <ListItemLink
         to="/tickets"
         primary={i18n.t("mainDrawer.listItems.tickets")}
-        icon={<WhatsAppIcon />}
+        icon={<ChatBubbleOutlineIcon />}
       />
 
       <ListItemLink
