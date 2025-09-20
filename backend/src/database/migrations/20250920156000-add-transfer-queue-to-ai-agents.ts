@@ -2,6 +2,14 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 module.exports = {
   up: async (queryInterface: QueryInterface) => {
+    // Verificar se a coluna já existe
+    const tableDescription = await queryInterface.describeTable("AiAgents");
+
+    if ((tableDescription as any).transferQueueId) {
+      console.log("Column transferQueueId already exists, skipping...");
+      return;
+    }
+
     // Verificar se existem filas disponíveis
     const [queues] = await queryInterface.sequelize.query(
       "SELECT id FROM Queues ORDER BY id LIMIT 1"
