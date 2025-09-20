@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
-    return queryInterface.addColumn('AiAgents', 'maxMessages', {
+    return queryInterface.addColumn("AiAgents", "maxMessages", {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 5
@@ -10,6 +10,6 @@ module.exports = {
   },
 
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.removeColumn('AiAgents', 'maxMessages');
+    return queryInterface.removeColumn("AiAgents", "maxMessages");
   }
 };
