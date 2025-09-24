@@ -289,6 +289,7 @@ const messages = {
           quickAnswers: "Respostas Rápidas",
           queues: "Filas",
           aiAgents: "Agentes de IA",
+          kanban: "Quadro Kanban",
           administration: "Administração",
           users: "Usuários",
           settings: "Configurações",

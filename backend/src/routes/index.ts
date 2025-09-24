@@ -12,6 +12,7 @@ import queueRoutes from "./queueRoutes";
 import quickAnswerRoutes from "./quickAnswerRoutes";
 import apiRoutes from "./apiRoutes";
 import aiAgentRoutes from "./aiAgentRoutes";
+import kanbanRoutes from "./kanbanRoutes";
 
 const routes = Router();
 
@@ -26,6 +27,7 @@ routes.use(whatsappSessionRoutes);
 routes.use(queueRoutes);
 routes.use(quickAnswerRoutes);
 routes.use(aiAgentRoutes);
+routes.use(kanbanRoutes);
 routes.use("/api/messages", apiRoutes);
 
 export default routes;
