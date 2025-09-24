@@ -19,7 +19,25 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.FRONTEND_URL
+    origin: function (origin, callback) {
+      // Permitir requisições sem origin (ex: mobile apps, Postman)
+      if (!origin) return callback(null, true);
+
+      const allowedOrigins = [
+        process.env.FRONTEND_URL,
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://whats.beavertech.online",
+        "https://apiwhats.beavertech.online"
+      ].filter(Boolean);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("Origin not allowed by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    }
   })
 );
 app.use(cookieParser());

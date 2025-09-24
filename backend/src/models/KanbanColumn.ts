@@ -12,7 +12,6 @@ import {
   Default
 } from "sequelize-typescript";
 
-import KanbanBoard from "./KanbanBoard";
 import Ticket from "./Ticket";
 
 @Table
@@ -46,12 +45,12 @@ class KanbanColumn extends Model<KanbanColumn> {
   @UpdatedAt
   updatedAt: Date;
 
-  @ForeignKey(() => KanbanBoard)
+  @ForeignKey(() => require("./KanbanBoard").default)
   @Column
   kanbanBoardId: number;
 
-  @BelongsTo(() => KanbanBoard)
-  kanbanBoard: KanbanBoard;
+  @BelongsTo(() => require("./KanbanBoard").default)
+  kanbanBoard: any;
 
   @HasMany(() => Ticket)
   tickets: Ticket[];

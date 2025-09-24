@@ -13,7 +13,6 @@ import {
 } from "sequelize-typescript";
 
 import User from "./User";
-import KanbanColumn from "./KanbanColumn";
 
 @Table
 class KanbanBoard extends Model<KanbanBoard> {
@@ -49,8 +48,8 @@ class KanbanBoard extends Model<KanbanBoard> {
   @BelongsTo(() => User)
   user: User;
 
-  @HasMany(() => KanbanColumn)
-  columns: KanbanColumn[];
+  @HasMany(() => require("./KanbanColumn").default)
+  columns: any[];
 }
 
 export default KanbanBoard;

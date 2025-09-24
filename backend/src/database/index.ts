@@ -11,6 +11,8 @@ import WhatsappQueue from "../models/WhatsappQueue";
 import UserQueue from "../models/UserQueue";
 import QuickAnswer from "../models/QuickAnswer";
 import AiAgent from "../models/AiAgent";
+import KanbanBoard from "../models/KanbanBoard";
+import KanbanColumn from "../models/KanbanColumn";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -30,7 +32,9 @@ const models = [
   WhatsappQueue,
   UserQueue,
   QuickAnswer,
-  AiAgent
+  AiAgent,
+  KanbanBoard,
+  KanbanColumn
 ];
 
 sequelize.addModels(models);

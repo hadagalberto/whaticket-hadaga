@@ -17,7 +17,7 @@ import Message from "./Message";
 import Queue from "./Queue";
 import User from "./User";
 import Whatsapp from "./Whatsapp";
-import KanbanColumn from "./KanbanColumn";
+// import KanbanColumn from "./KanbanColumn";
 
 @Table
 class Ticket extends Model<Ticket> {
@@ -73,12 +73,12 @@ class Ticket extends Model<Ticket> {
   @BelongsTo(() => Queue)
   queue: Queue;
 
-  @ForeignKey(() => KanbanColumn)
+  @ForeignKey(() => require("./KanbanColumn").default)
   @Column
   kanbanColumnId: number;
 
-  @BelongsTo(() => KanbanColumn)
-  kanbanColumn: KanbanColumn;
+  @BelongsTo(() => require("./KanbanColumn").default)
+  kanbanColumn: any;
 
   @Default(0)
   @Column
