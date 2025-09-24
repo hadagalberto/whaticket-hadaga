@@ -1,7 +1,7 @@
 cd backend
 
 echo "Pulling latest changes from repository..."
-git pull origin main
+git pull origin master
 
 echo "Installing backend dependencies..."
 npm install
