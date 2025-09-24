@@ -16,7 +16,7 @@ import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import QuestionAnswerOutlinedIcon from "@material-ui/icons/QuestionAnswerOutlined";
 import AndroidIcon from "@material-ui/icons/Android";
-import ViewKanbanIcon from "@material-ui/icons/ViewKanban";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 
 import { i18n } from "../translate/i18n";
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
@@ -181,7 +181,7 @@ const MainListItems = (props) => {
             <ListItemLink
               to="/kanban"
               primary={i18n.t("mainDrawer.listItems.kanban")}
-              icon={<ViewKanbanIcon />}
+              icon={<ViewColumnIcon />}
             />
             <ListItemLink
               to="/settings"

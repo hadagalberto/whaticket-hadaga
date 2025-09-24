@@ -8,7 +8,7 @@ npm install
 
 echo "Building backend and running database migrations..."
 npm run build
-npm run sequelize db:migrate
+npx sequelize db:migrate
 
 echo "Installing frontend dependencies..."
 cd ../frontend
