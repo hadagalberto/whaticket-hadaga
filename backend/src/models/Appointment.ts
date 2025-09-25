@@ -43,14 +43,14 @@ class Appointment extends Model<Appointment> {
 
   @ForeignKey(() => ServiceType)
   @AllowNull(false)
-  @Column
+  @Column(DataType.INTEGER)
   serviceTypeId: number;
 
   @BelongsTo(() => ServiceType)
   serviceType: ServiceType;
 
   @ForeignKey(() => User)
-  @Column
+  @Column(DataType.INTEGER)
   assignedUserId: number | null;
 
   @BelongsTo(() => User)
