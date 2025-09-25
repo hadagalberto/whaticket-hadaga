@@ -41,15 +41,15 @@ const messages = {
         },
         messages: {
           inAttendance: {
-            title: "In Service"
+            title: "In Service",
           },
           waiting: {
-            title: "Waiting"
+            title: "Waiting",
           },
           closed: {
-            title: "Closed"
-          }
-        }
+            title: "Closed",
+          },
+        },
       },
       connections: {
         title: "Connections",
@@ -284,6 +284,8 @@ const messages = {
           tickets: "Tickets",
           contacts: "Contacts",
           quickAnswers: "Quick Answers",
+          kanban: "Kanban",
+          schedules: "Schedules",
           queues: "Queues",
           administration: "Administration",
           users: "Users",
@@ -372,6 +374,108 @@ const messages = {
           },
         },
       },
+      schedules: {
+        title: "Scheduling",
+        actions: {
+          newAppointment: "New appointment",
+          newServiceType: "New service type",
+        },
+        calendar: {
+          today: "Today",
+          previous: "Previous month",
+          next: "Next month",
+        },
+        weekdays: {
+          sun: "Sun",
+          mon: "Mon",
+          tue: "Tue",
+          wed: "Wed",
+          thu: "Thu",
+          fri: "Fri",
+          sat: "Sat",
+        },
+        dayOverview: {
+          title: "Appointments for {{date}}",
+          empty: "No appointments for this day yet.",
+          minutes: "min",
+        },
+        serviceTypes: {
+          title: "Service types",
+          empty: "No service types registered yet.",
+          duration: "Estimated time: {{duration}} min",
+        },
+        status: {
+          scheduled: "Scheduled",
+          confirmed: "Confirmed",
+          completed: "Completed",
+          canceled: "Canceled",
+        },
+        serviceTypeModal: {
+          title: {
+            create: "Add service type",
+            edit: "Edit service type",
+          },
+          form: {
+            name: "Name",
+            description: "Description",
+            duration: "Estimated duration (minutes)",
+            durationHelper: "Leave empty to keep 30 minutes as default",
+            color: "Color (optional)",
+          },
+          actions: {
+            cancel: "Cancel",
+            save: "Save",
+            create: "Add",
+          },
+          errors: {
+            name: "Please inform the service name.",
+            duration: "Please inform a valid duration (minimum 5 minutes).",
+            durationMax: "Duration cannot exceed 1440 minutes.",
+          },
+          toasts: {
+            created: "Service type created successfully!",
+            updated: "Service type updated successfully!",
+          },
+          confirmDelete: "Delete service type {{name}}?",
+          confirmDeleteMessage:
+            "Existing appointments for this service will need a new type.",
+        },
+        appointmentModal: {
+          title: {
+            create: "Schedule appointment",
+            edit: "Edit appointment",
+          },
+          form: {
+            customerName: "Client name",
+            customerContact: "Contact (phone/email)",
+            serviceType: "Service type",
+            scheduledAt: "Date and time",
+            duration: "Duration (minutes)",
+            durationHelper: "Leave empty to use the service duration",
+            status: "Status",
+            location: "Location (optional)",
+            notes: "Notes",
+          },
+          actions: {
+            cancel: "Cancel",
+            save: "Save",
+            create: "Schedule",
+          },
+          errors: {
+            customerName: "Inform the client name.",
+            serviceType: "Select a service type.",
+            scheduledAt: "Choose date and time.",
+            duration: "Inform a valid duration (minimum 5 minutes).",
+            durationMax: "Duration cannot exceed 1440 minutes.",
+          },
+          toasts: {
+            created: "Appointment scheduled successfully!",
+            updated: "Appointment updated successfully!",
+          },
+          confirmDelete: "Cancel appointment with {{name}}?",
+          confirmDeleteMessage: "This action cannot be undone.",
+        },
+      },
       messagesList: {
         header: {
           assignedTo: "Assigned to:",
@@ -384,7 +488,8 @@ const messages = {
         },
       },
       messagesInput: {
-        placeholderOpen: "Type a message or press ''/'' to use the registered quick responses",
+        placeholderOpen:
+          "Type a message or press ''/'' to use the registered quick responses",
         placeholderClosed: "Reopen or accept this ticket to send a message.",
         signMessage: "Sign",
       },

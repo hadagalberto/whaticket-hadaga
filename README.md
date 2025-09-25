@@ -38,6 +38,19 @@ If a contact sent a new message in less than 2 hours interval, and there is no t
 - Send and receive message ✅
 - Send media (images/audio/documents) ✅
 - Receive media (images/audio/video/documents) ✅
+- Manage service appointments with calendar scheduling and time estimates ✅
+
+## Appointment scheduling
+
+WhaTicket now includes a native appointments module that lets teams capture service offerings and book time slots without leaving the platform:
+
+- **Service types:** define the catalog of services your team provides, including default durations, descriptions, and optional colors.
+- **Smart calendar:** review monthly capacity with a drag-free calendar that highlights busy days at a glance.
+- **Daily planner:** pick a day to see all appointments, their expected duration, and jump directly to edit or cancel.
+- **Conflict protection:** the backend avoids overlapping bookings for active appointments and enforces maximum daily capacity.
+- **Status tracking:** move appointments between scheduled, confirmed, completed, or canceled.
+
+You will find the new **Schedules** panel in the left navigation. Before creating the first appointment, register at least one service type so the calendar can calculate time forecasts. All operations are available through the public REST API as well (`/service-types` and `/appointments`).
 
 ## Installation and Usage (Linux Ubuntu - Development)
 
@@ -51,7 +64,7 @@ docker run --name whaticketdb -e MYSQL_ROOT_PASSWORD=strongpassword -e MYSQL_DAT
 # Before copy .env.example to .env first and set the variables in the file.
 docker-compose up -d mysql
 
-# To administer this mysql database easily using phpmyadmin. 
+# To administer this mysql database easily using phpmyadmin.
 # It will run by default on port 9000, but can be changed in .env using `PMA_PORT`
 docker-compose -f docker-compose.phpmyadmin.yaml up -d
 ```
@@ -185,7 +198,7 @@ docker run --name whaticketdb -e MYSQL_ROOT_PASSWORD=strongpassword -e MYSQL_DAT
 # Before copy .env.example to .env first and set the variables in the file.
 docker-compose up -d mysql
 
-# To administer this mysql database easily using phpmyadmin. 
+# To administer this mysql database easily using phpmyadmin.
 # It will run by default on port 9000, but can be changed in .env using `PMA_PORT`
 docker-compose -f docker-compose.phpmyadmin.yaml up -d
 ```
@@ -400,7 +413,7 @@ To run WhaTicket using docker you must perform the following steps:
 cp .env.example .env
 ```
 
-Now it will be necessary to configure the .env using its information, the variables are the same as those mentioned in the deployment using ubuntu, with the exception of mysql settings that were not in the .env. 
+Now it will be necessary to configure the .env using its information, the variables are the same as those mentioned in the deployment using ubuntu, with the exception of mysql settings that were not in the .env.
 
 ```bash
 # MYSQL

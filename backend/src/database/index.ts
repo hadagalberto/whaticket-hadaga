@@ -13,6 +13,8 @@ import QuickAnswer from "../models/QuickAnswer";
 import AiAgent from "../models/AiAgent";
 import KanbanBoard from "../models/KanbanBoard";
 import KanbanColumn from "../models/KanbanColumn";
+import ServiceType from "../models/ServiceType";
+import Appointment from "../models/Appointment";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -34,7 +36,9 @@ const models = [
   QuickAnswer,
   AiAgent,
   KanbanBoard,
-  KanbanColumn
+  KanbanColumn,
+  ServiceType,
+  Appointment
 ];
 
 sequelize.addModels(models);

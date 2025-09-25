@@ -15,6 +15,7 @@ import QuickAnswers from "../pages/QuickAnswers/";
 import Queues from "../pages/Queues/";
 import AiAgents from "../pages/AiAgents/";
 import Kanban from "../pages/Kanban/";
+import Schedules from "../pages/Schedules/";
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
 import { ThemeProvider } from "../context/DarkMode";
@@ -55,6 +56,12 @@ const Routes = () => {
                 <Route exact path="/Queues" component={Queues} isPrivate />
                 <Route exact path="/ai-agents" component={AiAgents} isPrivate />
                 <Route exact path="/kanban" component={Kanban} isPrivate />
+                <Route
+                  exact
+                  path="/schedules"
+                  component={Schedules}
+                  isPrivate
+                />
               </LoggedInLayout>
             </WhatsAppsProvider>
           </Switch>
