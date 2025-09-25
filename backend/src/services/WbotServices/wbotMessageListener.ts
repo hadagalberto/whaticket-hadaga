@@ -82,6 +82,17 @@ const verifyMediaMessage = async (
   ticket: Ticket,
   contact: Contact
 ): Promise<Message> => {
+  logger.info(
+    {
+      scope: "wbot",
+      action: "verifyMediaMessage:start",
+      sessionId: ticket.whatsappId ?? "unknown",
+      messageId: msg?.id?.id,
+      fromMe: msg.fromMe,
+      type: msg.type
+    },
+    "Processing media message"
+  );
   const quotedMsg = await verifyQuotedMessage(msg);
 
   const media = await msg.downloadMedia();
@@ -130,6 +141,18 @@ const verifyMediaMessage = async (
   await ticket.update({ lastMessage: msg.body || media.filename });
   const newMessage = await CreateMessageService({ messageData });
 
+  logger.info(
+    {
+      scope: "wbot",
+      action: "verifyMediaMessage:saved",
+      ticketId: ticket.id,
+      messageId: newMessage.id,
+      mediaType: messageData.mediaType,
+      mediaUrl: messageData.mediaUrl
+    },
+    "Media message saved"
+  );
+
   return newMessage;
 };
 
@@ -138,6 +161,17 @@ const verifyMessage = async (
   ticket: Ticket,
   contact: Contact
 ) => {
+  logger.info(
+    {
+      scope: "wbot",
+      action: "verifyMessage:start",
+      sessionId: ticket.whatsappId ?? "unknown",
+      messageId: msg?.id?.id,
+      fromMe: msg.fromMe,
+      type: msg.type
+    },
+    "Processing text message"
+  );
   if (msg.type === "location") msg = prepareLocation(msg);
 
   const quotedMsg = await verifyQuotedMessage(msg);
@@ -164,6 +198,17 @@ const verifyMessage = async (
   });
 
   await CreateMessageService({ messageData });
+
+  logger.info(
+    {
+      scope: "wbot",
+      action: "verifyMessage:saved",
+      ticketId: ticket.id,
+      messageId: messageData.id,
+      mediaType: messageData.mediaType
+    },
+    "Text/location message saved"
+  );
 };
 
 const prepareLocation = (msg: WbotMessage): WbotMessage => {
@@ -193,6 +238,16 @@ const verifyQueue = async (
   ticket: Ticket,
   contact: Contact
 ) => {
+  logger.info(
+    {
+      scope: "wbot",
+      action: "verifyQueue:start",
+      sessionId: wbot?.id,
+      ticketId: ticket?.id,
+      contact: contact?.number
+    },
+    "Verifying queue selection"
+  );
   const { queues, greetingMessage } = await ShowWhatsAppService(wbot.id!);
 
   if (queues.length === 1) {
@@ -209,6 +264,16 @@ const verifyQueue = async (
   const choosenQueue = queues[+selectedOption - 1];
 
   if (choosenQueue) {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "verifyQueue:chosen",
+        queueId: choosenQueue?.id,
+        queueName: choosenQueue?.name,
+        ticketId: ticket?.id
+      },
+      "Queue chosen"
+    );
     await UpdateTicketService({
       ticketData: { queueId: choosenQueue.id },
       ticketId: ticket.id
@@ -220,6 +285,14 @@ const verifyQueue = async (
 
     await verifyMessage(sentMessage, ticket, contact);
   } else {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "verifyQueue:menu",
+        ticketId: ticket?.id
+      },
+      "Sending queue menu"
+    );
     let options = "";
 
     queues.forEach((queue, index) => {
@@ -266,6 +339,24 @@ const handleMessage = async (
   msg: WbotMessage,
   wbot: Session
 ): Promise<void> => {
+  // log quick envelope before any awaits
+  try {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "handleMessage:received",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        from: (msg as any)?.from,
+        to: (msg as any)?.to,
+        type: msg.type,
+        fromMe: msg.fromMe,
+        hasMedia: msg.hasMedia
+      },
+      "Incoming message envelope"
+    );
+  } catch {}
+
   if (!isValidMsg(msg)) {
     return;
   }
@@ -297,6 +388,17 @@ const handleMessage = async (
     }
 
     const chat = await msg.getChat();
+    logger.info(
+      {
+        scope: "wbot",
+        action: "handleMessage:chat",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        chatId: (chat as any)?.id?._serialized,
+        isGroup: (chat as any)?.isGroup
+      },
+      "Resolved chat info"
+    );
 
     if (chat.isGroup) {
       let msgGroupContact;
@@ -314,6 +416,17 @@ const handleMessage = async (
     const unreadMessages = msg.fromMe ? 0 : chat.unreadCount;
 
     const contact = await verifyContact(msgContact);
+    logger.info(
+      {
+        scope: "wbot",
+        action: "handleMessage:contact",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        contactNumber: contact?.number,
+        unreadMessages
+      },
+      "Resolved contact"
+    );
 
     if (
       unreadMessages === 0 &&
@@ -327,6 +440,18 @@ const handleMessage = async (
       wbot.id!,
       unreadMessages,
       groupContact
+    );
+    logger.info(
+      {
+        scope: "wbot",
+        action: "handleMessage:ticket",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        ticketId: ticket?.id,
+        queueId: (ticket as any)?.queueId,
+        userId: ticket?.userId
+      },
+      "Ticket resolved"
     );
 
     if (msg.hasMedia) {
@@ -471,21 +596,63 @@ const handleMsgAck = async (msg: WbotMessage, ack: MessageAck) => {
 };
 
 const wbotMessageListener = (wbot: Session): void => {
+  logger.info(
+    { scope: "wbot", action: "listener:attach", sessionId: wbot?.id },
+    "Attaching wbot listeners"
+  );
   // Handle incoming messages (not from me)
   wbot.on("message", async msg => {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "event:message",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id
+      },
+      "Event: message"
+    );
     handleMessage(msg, wbot);
   });
 
   wbot.on("message_create", async msg => {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "event:message_create",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        fromMe: msg?.fromMe
+      },
+      "Event: message_create"
+    );
     handleMessage(msg, wbot);
   });
 
   // Media sent from device fires media_uploaded after initial placeholder message
   wbot.on("media_uploaded", async msg => {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "event:media_uploaded",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id
+      },
+      "Event: media_uploaded"
+    );
     handleMessage(msg, wbot);
   });
 
   wbot.on("message_ack", async (msg, ack) => {
+    logger.info(
+      {
+        scope: "wbot",
+        action: "event:message_ack",
+        sessionId: wbot?.id,
+        messageId: msg?.id?.id,
+        ack
+      },
+      "Event: message_ack"
+    );
     handleMsgAck(msg, ack);
   });
 };
