@@ -23,8 +23,9 @@ const useKanbanBoards = () => {
   }, []);
 
   const getKanbanColumns = (boardId) => {
+    if (!kanbanBoards || kanbanBoards.length === 0) return [];
     const board = kanbanBoards.find((b) => b.id === boardId);
-    return board ? board.columns : [];
+    return board && board.columns ? board.columns : [];
   };
 
   return { kanbanBoards, loading, getKanbanColumns };

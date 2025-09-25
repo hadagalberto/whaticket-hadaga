@@ -121,8 +121,8 @@ const Settings = () => {
   };
 
   const getSettingValue = (key) => {
-    const { value } = settings.find((s) => s.key === key);
-    return value;
+    const setting = settings.find((s) => s.key === key);
+    return setting ? setting.value : "";
   };
 
   const handleKanbanAutoAddChange = async (e) => {
@@ -179,7 +179,9 @@ const Settings = () => {
             id="userCreation-setting"
             name="userCreation"
             value={
-              settings && settings.length > 0 && getSettingValue("userCreation")
+              settings && settings.length > 0
+                ? getSettingValue("userCreation")
+                : ""
             }
             className={classes.settingOption}
             onChange={handleChangeSetting}
@@ -202,7 +204,9 @@ const Settings = () => {
             variant="outlined"
             fullWidth
             value={
-              settings && settings.length > 0 && getSettingValue("userApiToken")
+              settings && settings.length > 0
+                ? getSettingValue("userApiToken")
+                : ""
             }
           />
         </Paper>
