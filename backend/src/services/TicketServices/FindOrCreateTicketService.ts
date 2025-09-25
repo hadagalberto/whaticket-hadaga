@@ -2,6 +2,7 @@ import { subHours } from "date-fns";
 import { Op } from "sequelize";
 import Contact from "../../models/Contact";
 import Ticket from "../../models/Ticket";
+import AddTicketToKanban from "../../helpers/AddTicketToKanban";
 import ShowTicketService from "./ShowTicketService";
 
 const FindOrCreateTicketService = async (
@@ -71,6 +72,9 @@ const FindOrCreateTicketService = async (
       unreadMessages,
       whatsappId
     });
+
+    // Adicionar automaticamente ao Kanban (se configurado)
+    await AddTicketToKanban(ticket.id);
   }
 
   ticket = await ShowTicketService(ticket.id);

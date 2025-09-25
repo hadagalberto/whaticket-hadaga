@@ -172,3 +172,53 @@ export const moveTicket = async (
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// Adicionar ticket ao Kanban
+export const addTicket = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { ticketId, kanbanColumnId } = req.body;
+
+    const ticket = await Ticket.findByPk(ticketId);
+
+    if (!ticket) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    const kanbanColumn = await KanbanColumn.findByPk(kanbanColumnId);
+
+    if (!kanbanColumn) {
+      return res.status(404).json({ error: "Kanban column not found" });
+    }
+
+    // Se o ticket já está no Kanban, apenas mover
+    if (ticket.kanbanColumnId) {
+      return moveTicket(req, res);
+    }
+
+    // Obter a próxima posição na coluna
+    const maxPosition = (await Ticket.max("kanbanPosition", {
+      where: { kanbanColumnId }
+    })) as number;
+
+    const nextPosition = (maxPosition || -1) + 1;
+
+    // Adicionar ticket ao Kanban
+    await ticket.update({
+      kanbanColumnId,
+      kanbanPosition: nextPosition
+    });
+
+    return res.json({
+      message: "Ticket added to Kanban successfully",
+      ticket: await Ticket.findByPk(ticketId, {
+        include: [{ model: Contact }, { model: User }, { model: Queue }]
+      })
+    });
+  } catch (error) {
+    console.error("Error adding ticket to kanban:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

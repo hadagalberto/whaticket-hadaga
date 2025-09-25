@@ -154,6 +154,11 @@ const MainListItems = (props) => {
         primary={i18n.t("mainDrawer.listItems.quickAnswers")}
         icon={<QuestionAnswerOutlinedIcon />}
       />
+      <ListItemLink
+        to="/kanban"
+        primary={i18n.t("mainDrawer.listItems.kanban")}
+        icon={<ViewColumnIcon />}
+      />
       <Can
         role={user.profile}
         perform="drawer-admin-items:view"
@@ -177,11 +182,6 @@ const MainListItems = (props) => {
               to="/ai-agents"
               primary={i18n.t("mainDrawer.listItems.aiAgents")}
               icon={<AndroidIcon />}
-            />
-            <ListItemLink
-              to="/kanban"
-              primary={i18n.t("mainDrawer.listItems.kanban")}
-              icon={<ViewColumnIcon />}
             />
             <ListItemLink
               to="/settings"

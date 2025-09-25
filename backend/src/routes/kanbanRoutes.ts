@@ -12,6 +12,7 @@ kanbanRoutes.post("/kanban", isAuth, KanbanController.store);
 kanbanRoutes.put("/kanban/:kanbanBoardId", isAuth, KanbanController.update);
 kanbanRoutes.delete("/kanban/:kanbanBoardId", isAuth, KanbanController.remove);
 kanbanRoutes.post("/kanban/move-ticket", isAuth, KanbanController.moveTicket);
+kanbanRoutes.post("/kanban/add-ticket", isAuth, KanbanController.addTicket);
 
 // Rotas para Kanban Columns
 kanbanRoutes.post("/kanban-columns", isAuth, KanbanColumnController.store);

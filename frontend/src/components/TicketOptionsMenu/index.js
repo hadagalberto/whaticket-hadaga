@@ -7,97 +7,118 @@ import { i18n } from "../../translate/i18n";
 import api from "../../services/api";
 import ConfirmationModal from "../ConfirmationModal";
 import TransferTicketModal from "../TransferTicketModal";
+import SendToKanbanModal from "../SendToKanbanModal";
 import toastError from "../../errors/toastError";
 import { Can } from "../Can";
 import { AuthContext } from "../../context/Auth/AuthContext";
 
 const TicketOptionsMenu = ({ ticket, menuOpen, handleClose, anchorEl }) => {
-	const [confirmationOpen, setConfirmationOpen] = useState(false);
-	const [transferTicketModalOpen, setTransferTicketModalOpen] = useState(false);
-	const isMounted = useRef(true);
-	const { user } = useContext(AuthContext);
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [transferTicketModalOpen, setTransferTicketModalOpen] = useState(false);
+  const [sendToKanbanModalOpen, setSendToKanbanModalOpen] = useState(false);
+  const isMounted = useRef(true);
+  const { user } = useContext(AuthContext);
 
-	useEffect(() => {
-		return () => {
-			isMounted.current = false;
-		};
-	}, []);
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
-	const handleDeleteTicket = async () => {
-		try {
-			await api.delete(`/tickets/${ticket.id}`);
-		} catch (err) {
-			toastError(err);
-		}
-	};
+  const handleDeleteTicket = async () => {
+    try {
+      await api.delete(`/tickets/${ticket.id}`);
+    } catch (err) {
+      toastError(err);
+    }
+  };
 
-	const handleOpenConfirmationModal = e => {
-		setConfirmationOpen(true);
-		handleClose();
-	};
+  const handleOpenConfirmationModal = (e) => {
+    setConfirmationOpen(true);
+    handleClose();
+  };
 
-	const handleOpenTransferModal = e => {
-		setTransferTicketModalOpen(true);
-		handleClose();
-	};
+  const handleOpenTransferModal = (e) => {
+    setTransferTicketModalOpen(true);
+    handleClose();
+  };
 
-	const handleCloseTransferTicketModal = () => {
-		if (isMounted.current) {
-			setTransferTicketModalOpen(false);
-		}
-	};
+  const handleOpenSendToKanbanModal = (e) => {
+    setSendToKanbanModalOpen(true);
+    handleClose();
+  };
 
-	return (
-		<>
-			<Menu
-				id="menu-appbar"
-				anchorEl={anchorEl}
-				getContentAnchorEl={null}
-				anchorOrigin={{
-					vertical: "bottom",
-					horizontal: "right",
-				}}
-				keepMounted
-				transformOrigin={{
-					vertical: "top",
-					horizontal: "right",
-				}}
-				open={menuOpen}
-				onClose={handleClose}
-			>
-				<MenuItem onClick={handleOpenTransferModal}>
-					{i18n.t("ticketOptionsMenu.transfer")}
-				</MenuItem>
-				<Can
-					role={user.profile}
-					perform="ticket-options:deleteTicket"
-					yes={() => (
-						<MenuItem onClick={handleOpenConfirmationModal}>
-							{i18n.t("ticketOptionsMenu.delete")}
-						</MenuItem>
-					)}
-				/>
-			</Menu>
-			<ConfirmationModal
-				title={`${i18n.t("ticketOptionsMenu.confirmationModal.title")}${
-					ticket.id
-				} ${i18n.t("ticketOptionsMenu.confirmationModal.titleFrom")} ${
-					ticket.contact.name
-				}?`}
-				open={confirmationOpen}
-				onClose={setConfirmationOpen}
-				onConfirm={handleDeleteTicket}
-			>
-				{i18n.t("ticketOptionsMenu.confirmationModal.message")}
-			</ConfirmationModal>
-			<TransferTicketModal
-				modalOpen={transferTicketModalOpen}
-				onClose={handleCloseTransferTicketModal}
-				ticketid={ticket.id}
-				ticketWhatsappId={ticket.whatsappId}
-			/>
-		</>
-	);
+  const handleCloseTransferTicketModal = () => {
+    if (isMounted.current) {
+      setTransferTicketModalOpen(false);
+    }
+  };
+
+  const handleCloseSendToKanbanModal = () => {
+    if (isMounted.current) {
+      setSendToKanbanModalOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={menuOpen}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleOpenTransferModal}>
+          {i18n.t("ticketOptionsMenu.transfer")}
+        </MenuItem>
+        <MenuItem onClick={handleOpenSendToKanbanModal}>
+          {i18n.t("ticketOptionsMenu.sendToKanban")}
+        </MenuItem>
+        <Can
+          role={user.profile}
+          perform="ticket-options:deleteTicket"
+          yes={() => (
+            <MenuItem onClick={handleOpenConfirmationModal}>
+              {i18n.t("ticketOptionsMenu.delete")}
+            </MenuItem>
+          )}
+        />
+      </Menu>
+      <ConfirmationModal
+        title={`${i18n.t("ticketOptionsMenu.confirmationModal.title")}${
+          ticket.id
+        } ${i18n.t("ticketOptionsMenu.confirmationModal.titleFrom")} ${
+          ticket.contact.name
+        }?`}
+        open={confirmationOpen}
+        onClose={setConfirmationOpen}
+        onConfirm={handleDeleteTicket}
+      >
+        {i18n.t("ticketOptionsMenu.confirmationModal.message")}
+      </ConfirmationModal>
+      <TransferTicketModal
+        modalOpen={transferTicketModalOpen}
+        onClose={handleCloseTransferTicketModal}
+        ticketid={ticket.id}
+        ticketWhatsappId={ticket.whatsappId}
+      />
+      <SendToKanbanModal
+        modalOpen={sendToKanbanModalOpen}
+        onClose={handleCloseSendToKanbanModal}
+        ticketId={ticket.id}
+      />
+    </>
+  );
 };
 
 export default TicketOptionsMenu;

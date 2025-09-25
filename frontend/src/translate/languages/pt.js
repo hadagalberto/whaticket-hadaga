@@ -406,6 +406,7 @@ const messages = {
       ticketOptionsMenu: {
         delete: "Deletar",
         transfer: "Transferir",
+        sendToKanban: "Enviar para Kanban",
         confirmationModal: {
           title: "Deletar o ticket do contato",
           message:
