@@ -31,7 +31,7 @@ class ServiceType extends Model<ServiceType> {
   @Column(DataType.INTEGER)
   duration: number;
 
-  @Column
+  @Column(DataType.STRING)
   color: string | null;
 
   @HasMany(() => Appointment)

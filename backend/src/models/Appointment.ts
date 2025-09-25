@@ -32,10 +32,10 @@ class Appointment extends Model<Appointment> {
   @Column
   customerName: string;
 
-  @Column
+  @Column(DataType.STRING)
   customerContact: string | null;
 
-  @Column
+  @Column(DataType.STRING)
   location: string | null;
 
   @Column(DataType.TEXT)
