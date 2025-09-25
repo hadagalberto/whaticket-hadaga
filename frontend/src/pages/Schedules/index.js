@@ -44,6 +44,7 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import ServiceTypeModal from "../../components/Schedules/ServiceTypeModal";
 import AppointmentModal from "../../components/Schedules/AppointmentModal";
 import { i18n } from "../../translate/i18n";
+import { enUS, ptBR as dateFnsPtBR, es as esLocale } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   calendarCard: {
@@ -141,20 +142,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const weekdays = [
-  i18n.t("schedules.weekdays.sun"),
-  i18n.t("schedules.weekdays.mon"),
-  i18n.t("schedules.weekdays.tue"),
-  i18n.t("schedules.weekdays.wed"),
-  i18n.t("schedules.weekdays.thu"),
-  i18n.t("schedules.weekdays.fri"),
-  i18n.t("schedules.weekdays.sat"),
-];
-
 const formatDateKey = (date) => format(date, "yyyy-MM-dd");
 
 const Schedules = () => {
   const classes = useStyles();
+  const [language, setLanguage] = useState(i18n.language || "en");
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [serviceTypes, setServiceTypes] = useState([]);
@@ -168,6 +160,44 @@ const Schedules = () => {
   const [editingAppointment, setEditingAppointment] = useState(null);
   const [appointmentToDelete, setAppointmentToDelete] = useState(null);
   const [defaultAppointmentDate, setDefaultAppointmentDate] = useState(null);
+
+  useEffect(() => {
+    const handleLanguageChange = (lng) => setLanguage(lng || "en");
+
+    i18n.on("languageChanged", handleLanguageChange);
+
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange);
+    };
+  }, []);
+
+  const dateLocale = useMemo(() => {
+    if (!language) return enUS;
+
+    if (language.startsWith("pt")) {
+      return dateFnsPtBR;
+    }
+
+    if (language.startsWith("es")) {
+      return esLocale;
+    }
+
+    return enUS;
+  }, [language]);
+
+  const weekdays = useMemo(() => {
+    const keys = [
+      "schedules.weekdays.sun",
+      "schedules.weekdays.mon",
+      "schedules.weekdays.tue",
+      "schedules.weekdays.wed",
+      "schedules.weekdays.thu",
+      "schedules.weekdays.fri",
+      "schedules.weekdays.sat",
+    ];
+
+    return keys.map((key) => i18n.t(key, { lng: language }));
+  }, [language]);
 
   const monthRange = useMemo(() => {
     const monthStart = startOfMonth(currentMonth);
@@ -399,7 +429,7 @@ const Schedules = () => {
                 </IconButton>
               </div>
               <Typography variant="h6">
-                {format(currentMonth, "MMMM yyyy")}
+                {format(currentMonth, "MMMM yyyy", { locale: dateLocale })}
               </Typography>
               <Button onClick={() => setCurrentMonth(startOfMonth(new Date()))}>
                 {i18n.t("schedules.calendar.today")}
@@ -429,7 +459,7 @@ const Schedules = () => {
                   >
                     <div className={classes.cellHeader}>
                       <Typography variant="subtitle2">
-                        {format(day, "d")}
+                        {format(day, "d", { locale: dateLocale })}
                       </Typography>
                       {dayAppointments.length > 0 && (
                         <Chip
@@ -467,7 +497,7 @@ const Schedules = () => {
           <Paper className={classes.dayAppointmentsCard} variant="outlined">
             <Typography variant="h6">
               {i18n.t("schedules.dayOverview.title", {
-                date: format(selectedDate, "PPPP"),
+                date: format(selectedDate, "PPPP", { locale: dateLocale }),
               })}
             </Typography>
             <Divider style={{ margin: "16px 0" }} />

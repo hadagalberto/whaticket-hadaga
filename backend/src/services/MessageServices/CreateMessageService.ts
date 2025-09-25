@@ -63,11 +63,13 @@ const CreateMessageService = async ({
     });
 
   // Processar com IA se configurado (assíncrono para não bloquear o fluxo)
-  setImmediate(() => {
-    HandleAiResponseService(message, message.ticket).catch(error => {
-      console.error("Erro ao processar resposta de IA:", error);
+  if (process.env.ENABLE_AI_AGENTS === "true") {
+    setImmediate(() => {
+      HandleAiResponseService(message, message.ticket).catch(error => {
+        console.error("Erro ao processar resposta de IA:", error);
+      });
     });
-  });
+  }
 
   return message;
 };

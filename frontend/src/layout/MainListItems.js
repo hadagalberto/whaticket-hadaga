@@ -18,6 +18,7 @@ import QuestionAnswerOutlinedIcon from "@material-ui/icons/QuestionAnswerOutline
 import AndroidIcon from "@material-ui/icons/Android";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
+import ForumIcon from "@material-ui/icons/Forum";
 
 import { i18n } from "../translate/i18n";
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
@@ -143,6 +144,11 @@ const MainListItems = (props) => {
         to="/tickets"
         primary={i18n.t("mainDrawer.listItems.tickets")}
         icon={<ChatBubbleOutlineIcon />}
+      />
+      <ListItemLink
+        to="/internal-chat"
+        primary={i18n.t("mainDrawer.listItems.internalChat")}
+        icon={<ForumIcon />}
       />
 
       <ListItemLink

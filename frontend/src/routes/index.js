@@ -16,6 +16,7 @@ import Queues from "../pages/Queues/";
 import AiAgents from "../pages/AiAgents/";
 import Kanban from "../pages/Kanban/";
 import Schedules from "../pages/Schedules/";
+import InternalChat from "../pages/InternalChat/";
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
 import { ThemeProvider } from "../context/DarkMode";
@@ -42,6 +43,12 @@ const Routes = () => {
                   exact
                   path="/connections"
                   component={Connections}
+                  isPrivate
+                />
+                <Route
+                  exact
+                  path="/internal-chat"
+                  component={InternalChat}
                   isPrivate
                 />
                 <Route exact path="/contacts" component={Contacts} isPrivate />

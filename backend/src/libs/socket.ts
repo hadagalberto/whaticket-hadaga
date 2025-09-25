@@ -32,6 +32,11 @@ export const initIO = (httpServer: Server): SocketIO => {
       socket.join(ticketId);
     });
 
+    socket.on("joinInternalChat", () => {
+      logger.info("A client joined internal chat channel");
+      socket.join("internal-chat");
+    });
+
     socket.on("joinNotification", () => {
       logger.info("A client joined notification channel");
       socket.join("notification");

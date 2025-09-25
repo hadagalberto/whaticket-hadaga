@@ -284,6 +284,7 @@ const messages = {
           tickets: "Tickets",
           contacts: "Contacts",
           quickAnswers: "Quick Answers",
+          internalChat: "Team Chat",
           kanban: "Kanban",
           schedules: "Schedules",
           queues: "Queues",
@@ -372,6 +373,20 @@ const messages = {
               disabled: "Disabled",
             },
           },
+        },
+      },
+      internalChat: {
+        title: "Team chat",
+        emptyState: "No messages yet. Start the conversation!",
+        input: {
+          placeholder: "Write a message...",
+        },
+        actions: {
+          loadMore: "Load previous messages",
+          loading: "Loading...",
+        },
+        messages: {
+          unknownUser: "Unknown user",
         },
       },
       schedules: {
@@ -563,6 +578,8 @@ const messages = {
           "This color is already in use, pick another one.",
         ERR_WAPP_GREETING_REQUIRED:
           "Greeting message is required if there is more than one queue.",
+        ERR_INTERNAL_CHAT_EMPTY_MESSAGE:
+          "Please write a message before sending.",
       },
     },
   },

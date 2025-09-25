@@ -15,6 +15,7 @@ import KanbanBoard from "../models/KanbanBoard";
 import KanbanColumn from "../models/KanbanColumn";
 import ServiceType from "../models/ServiceType";
 import Appointment from "../models/Appointment";
+import InternalChatMessage from "../models/InternalChatMessage";
 
 // eslint-disable-next-line
 const dbConfig = require("../config/database");
@@ -38,7 +39,8 @@ const models = [
   KanbanBoard,
   KanbanColumn,
   ServiceType,
-  Appointment
+  Appointment,
+  InternalChatMessage
 ];
 
 sequelize.addModels(models);

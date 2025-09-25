@@ -14,6 +14,7 @@ import apiRoutes from "./apiRoutes";
 import aiAgentRoutes from "./aiAgentRoutes";
 import kanbanRoutes from "./kanbanRoutes";
 import scheduleRoutes from "./scheduleRoutes";
+import internalChatRoutes from "./internalChatRoutes";
 
 const routes = Router();
 
@@ -30,6 +31,7 @@ routes.use(quickAnswerRoutes);
 routes.use(aiAgentRoutes);
 routes.use(kanbanRoutes);
 routes.use(scheduleRoutes);
+routes.use(internalChatRoutes);
 routes.use("/api/messages", apiRoutes);
 
 export default routes;

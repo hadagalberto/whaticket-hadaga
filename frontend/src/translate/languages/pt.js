@@ -25,109 +25,6 @@ const messages = {
         },
         buttons: {
           submit: "Entrar",
-          schedules: {
-            title: "Agendamentos",
-            actions: {
-              newAppointment: "Novo agendamento",
-              newServiceType: "Novo tipo de serviço",
-            },
-            calendar: {
-              today: "Hoje",
-              previous: "Mês anterior",
-              next: "Próximo mês",
-            },
-            weekdays: {
-              sun: "Dom",
-              mon: "Seg",
-              tue: "Ter",
-              wed: "Qua",
-              thu: "Qui",
-              fri: "Sex",
-              sat: "Sáb",
-            },
-            dayOverview: {
-              title: "Agendamentos para {{date}}",
-              empty: "Nenhum horário marcado para este dia.",
-              minutes: "min",
-            },
-            serviceTypes: {
-              title: "Tipos de serviço",
-              empty: "Nenhum tipo de serviço cadastrado.",
-              duration: "Tempo estimado: {{duration}} min",
-            },
-            status: {
-              scheduled: "Agendado",
-              confirmed: "Confirmado",
-              completed: "Concluído",
-              canceled: "Cancelado",
-            },
-            serviceTypeModal: {
-              title: {
-                create: "Adicionar tipo de serviço",
-                edit: "Editar tipo de serviço",
-              },
-              form: {
-                name: "Nome",
-                description: "Descrição",
-                duration: "Duração estimada (minutos)",
-                durationHelper: "Deixe em branco para manter 30 minutos",
-                color: "Cor (opcional)",
-              },
-              actions: {
-                cancel: "Cancelar",
-                save: "Salvar",
-                create: "Adicionar",
-              },
-              errors: {
-                name: "Informe o nome do serviço.",
-                duration: "Informe uma duração válida (mínimo 5 minutos).",
-                durationMax: "A duração não pode ultrapassar 1440 minutos.",
-              },
-              toasts: {
-                created: "Tipo de serviço criado com sucesso!",
-                updated: "Tipo de serviço atualizado com sucesso!",
-              },
-              confirmDelete: "Excluir o tipo de serviço {{name}}?",
-              confirmDeleteMessage:
-                "Agendamentos existentes precisarão de um novo tipo.",
-            },
-            appointmentModal: {
-              title: {
-                create: "Agendar horário",
-                edit: "Editar agendamento",
-              },
-              form: {
-                customerName: "Nome do cliente",
-                customerContact: "Contato (telefone/email)",
-                serviceType: "Tipo de serviço",
-                scheduledAt: "Data e horário",
-                duration: "Duração (minutos)",
-                durationHelper:
-                  "Deixe em branco para usar a duração do serviço",
-                status: "Status",
-                location: "Local (opcional)",
-                notes: "Observações",
-              },
-              actions: {
-                cancel: "Cancelar",
-                save: "Salvar",
-                create: "Agendar",
-              },
-              errors: {
-                customerName: "Informe o nome do cliente.",
-                serviceType: "Selecione um tipo de serviço.",
-                scheduledAt: "Escolha a data e horário.",
-                duration: "Informe uma duração válida (mínimo 5 minutos).",
-                durationMax: "A duração não pode ultrapassar 1440 minutos.",
-              },
-              toasts: {
-                created: "Agendamento criado com sucesso!",
-                updated: "Agendamento atualizado com sucesso!",
-              },
-              confirmDelete: "Cancelar agendamento com {{name}}?",
-              confirmDeleteMessage: "Essa ação não poderá ser desfeita.",
-            },
-          },
           register: "Não tem um conta? Cadastre-se!",
         },
       },
@@ -390,6 +287,7 @@ const messages = {
           tickets: "Tickets",
           contacts: "Contatos",
           quickAnswers: "Respostas Rápidas",
+          internalChat: "Chat interno",
           schedules: "Agendamentos",
           queues: "Filas",
           aiAgents: "Agentes de IA",
@@ -482,6 +380,122 @@ const messages = {
           },
         },
       },
+      internalChat: {
+        title: "Chat interno",
+        emptyState: "Nenhuma mensagem ainda. Comece a conversa!",
+        input: {
+          placeholder: "Escreva uma mensagem...",
+        },
+        actions: {
+          loadMore: "Carregar mensagens anteriores",
+          loading: "Carregando...",
+        },
+        messages: {
+          unknownUser: "Usuário desconhecido",
+        },
+      },
+      schedules: {
+        title: "Agendamentos",
+        actions: {
+          newAppointment: "Novo agendamento",
+          newServiceType: "Novo tipo de serviço",
+        },
+        calendar: {
+          today: "Hoje",
+          previous: "Mês anterior",
+          next: "Próximo mês",
+        },
+        weekdays: {
+          sun: "Dom",
+          mon: "Seg",
+          tue: "Ter",
+          wed: "Qua",
+          thu: "Qui",
+          fri: "Sex",
+          sat: "Sáb",
+        },
+        dayOverview: {
+          title: "Agendamentos para {{date}}",
+          empty: "Nenhum horário marcado para este dia.",
+          minutes: "min",
+        },
+        serviceTypes: {
+          title: "Tipos de serviço",
+          empty: "Nenhum tipo de serviço cadastrado.",
+          duration: "Tempo estimado: {{duration}} min",
+        },
+        status: {
+          scheduled: "Agendado",
+          confirmed: "Confirmado",
+          completed: "Concluído",
+          canceled: "Cancelado",
+        },
+        serviceTypeModal: {
+          title: {
+            create: "Adicionar tipo de serviço",
+            edit: "Editar tipo de serviço",
+          },
+          form: {
+            name: "Nome",
+            description: "Descrição",
+            duration: "Duração estimada (minutos)",
+            durationHelper: "Deixe em branco para manter 30 minutos",
+            color: "Cor (opcional)",
+          },
+          actions: {
+            cancel: "Cancelar",
+            save: "Salvar",
+            create: "Adicionar",
+          },
+          errors: {
+            name: "Informe o nome do serviço.",
+            duration: "Informe uma duração válida (mínimo 5 minutos).",
+            durationMax: "A duração não pode ultrapassar 1440 minutos.",
+          },
+          toasts: {
+            created: "Tipo de serviço criado com sucesso!",
+            updated: "Tipo de serviço atualizado com sucesso!",
+          },
+          confirmDelete: "Excluir o tipo de serviço {{name}}?",
+          confirmDeleteMessage:
+            "Agendamentos existentes precisarão de um novo tipo.",
+        },
+        appointmentModal: {
+          title: {
+            create: "Agendar horário",
+            edit: "Editar agendamento",
+          },
+          form: {
+            customerName: "Nome do cliente",
+            customerContact: "Contato (telefone/email)",
+            serviceType: "Tipo de serviço",
+            scheduledAt: "Data e horário",
+            duration: "Duração (minutos)",
+            durationHelper: "Deixe em branco para usar a duração do serviço",
+            status: "Status",
+            location: "Local (opcional)",
+            notes: "Observações",
+          },
+          actions: {
+            cancel: "Cancelar",
+            save: "Salvar",
+            create: "Agendar",
+          },
+          errors: {
+            customerName: "Informe o nome do cliente.",
+            serviceType: "Selecione um tipo de serviço.",
+            scheduledAt: "Escolha a data e horário.",
+            duration: "Informe uma duração válida (mínimo 5 minutos).",
+            durationMax: "A duração não pode ultrapassar 1440 minutos.",
+          },
+          toasts: {
+            created: "Agendamento criado com sucesso!",
+            updated: "Agendamento atualizado com sucesso!",
+          },
+          confirmDelete: "Cancelar agendamento com {{name}}?",
+          confirmDeleteMessage: "Essa ação não poderá ser desfeita.",
+        },
+      },
       messagesList: {
         header: {
           assignedTo: "Atribuído à:",
@@ -570,6 +584,8 @@ const messages = {
           "Esta cor já está em uso, escolha outra.",
         ERR_WAPP_GREETING_REQUIRED:
           "A mensagem de saudação é obrigatório quando há mais de uma fila.",
+        ERR_INTERNAL_CHAT_EMPTY_MESSAGE:
+          "Escreva uma mensagem antes de enviar.",
       },
       aiAgents: {
         title: "Agentes de IA",

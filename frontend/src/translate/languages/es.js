@@ -26,109 +26,6 @@ const messages = {
         },
         buttons: {
           submit: "Ingresa",
-          schedules: {
-            title: "Citas",
-            actions: {
-              newAppointment: "Nueva cita",
-              newServiceType: "Nuevo tipo de servicio",
-            },
-            calendar: {
-              today: "Hoy",
-              previous: "Mes anterior",
-              next: "Próximo mes",
-            },
-            weekdays: {
-              sun: "Dom",
-              mon: "Lun",
-              tue: "Mar",
-              wed: "Mié",
-              thu: "Jue",
-              fri: "Vie",
-              sat: "Sáb",
-            },
-            dayOverview: {
-              title: "Citas para {{date}}",
-              empty: "Aún no hay citas para este día.",
-              minutes: "min",
-            },
-            serviceTypes: {
-              title: "Tipos de servicio",
-              empty: "Todavía no se han registrado tipos de servicio.",
-              duration: "Tiempo estimado: {{duration}} min",
-            },
-            status: {
-              scheduled: "Programada",
-              confirmed: "Confirmada",
-              completed: "Completada",
-              canceled: "Cancelada",
-            },
-            serviceTypeModal: {
-              title: {
-                create: "Agregar tipo de servicio",
-                edit: "Editar tipo de servicio",
-              },
-              form: {
-                name: "Nombre",
-                description: "Descripción",
-                duration: "Duración estimada (minutos)",
-                durationHelper: "Dejar en blanco para mantener 30 minutos",
-                color: "Color (opcional)",
-              },
-              actions: {
-                cancel: "Cancelar",
-                save: "Guardar",
-                create: "Agregar",
-              },
-              errors: {
-                name: "Informe el nombre del servicio.",
-                duration: "Informe una duración válida (mínimo 5 minutos).",
-                durationMax: "La duración no puede superar los 1440 minutos.",
-              },
-              toasts: {
-                created: "¡Tipo de servicio creado con éxito!",
-                updated: "¡Tipo de servicio actualizado con éxito!",
-              },
-              confirmDelete: "¿Eliminar el tipo de servicio {{name}}?",
-              confirmDeleteMessage:
-                "Las citas existentes deberán elegir otro tipo.",
-            },
-            appointmentModal: {
-              title: {
-                create: "Programar cita",
-                edit: "Editar cita",
-              },
-              form: {
-                customerName: "Nombre del cliente",
-                customerContact: "Contacto (teléfono/correo)",
-                serviceType: "Tipo de servicio",
-                scheduledAt: "Fecha y hora",
-                duration: "Duración (minutos)",
-                durationHelper:
-                  "Dejar en blanco para usar la duración del tipo de servicio",
-                status: "Estado",
-                location: "Ubicación (opcional)",
-                notes: "Notas",
-              },
-              actions: {
-                cancel: "Cancelar",
-                save: "Guardar",
-                create: "Programar",
-              },
-              errors: {
-                customerName: "Informe el nombre del cliente.",
-                serviceType: "Seleccione un tipo de servicio.",
-                scheduledAt: "Elija fecha y hora.",
-                duration: "Informe una duración válida (mínimo 5 minutos).",
-                durationMax: "La duración no puede superar los 1440 minutos.",
-              },
-              toasts: {
-                created: "¡Cita creada con éxito!",
-                updated: "¡Cita actualizada con éxito!",
-              },
-              confirmDelete: "¿Cancelar la cita con {{name}}?",
-              confirmDeleteMessage: "Esta acción no se puede deshacer.",
-            },
-          },
           register: "¿No tienes cuenta? ¡Regístrate!",
         },
       },
@@ -391,6 +288,7 @@ const messages = {
           tickets: "Tickets",
           contacts: "Contactos",
           quickAnswers: "Respuestas rápidas",
+          internalChat: "Chat interno",
           schedules: "Citas",
           queues: "Linhas",
           kanban: "Kanban",
@@ -482,12 +380,129 @@ const messages = {
           },
         },
       },
+      internalChat: {
+        title: "Chat interno",
+        emptyState: "Aún no hay mensajes. ¡Inicia la conversación!",
+        input: {
+          placeholder: "Escribe un mensaje...",
+        },
+        actions: {
+          loadMore: "Cargar mensajes anteriores",
+          loading: "Cargando...",
+        },
+        messages: {
+          unknownUser: "Usuario desconocido",
+        },
+      },
       messagesList: {
         header: {
           assignedTo: "Asignado a:",
           buttons: {
             return: "Devolver",
             resolve: "Resolver",
+            schedules: {
+              title: "Citas",
+              actions: {
+                newAppointment: "Nueva cita",
+                newServiceType: "Nuevo tipo de servicio",
+              },
+              calendar: {
+                today: "Hoy",
+                previous: "Mes anterior",
+                next: "Próximo mes",
+              },
+              weekdays: {
+                sun: "Dom",
+                mon: "Lun",
+                tue: "Mar",
+                wed: "Mié",
+                thu: "Jue",
+                fri: "Vie",
+                sat: "Sáb",
+              },
+              dayOverview: {
+                title: "Citas para {{date}}",
+                empty: "Aún no hay citas para este día.",
+                minutes: "min",
+              },
+              serviceTypes: {
+                title: "Tipos de servicio",
+                empty: "Todavía no se han registrado tipos de servicio.",
+                duration: "Tiempo estimado: {{duration}} min",
+              },
+              status: {
+                scheduled: "Programada",
+                confirmed: "Confirmada",
+                completed: "Completada",
+                canceled: "Cancelada",
+              },
+              serviceTypeModal: {
+                title: {
+                  create: "Agregar tipo de servicio",
+                  edit: "Editar tipo de servicio",
+                },
+                form: {
+                  name: "Nombre",
+                  description: "Descripción",
+                  duration: "Duración estimada (minutos)",
+                  durationHelper: "Dejar en blanco para mantener 30 minutos",
+                  color: "Color (opcional)",
+                },
+                actions: {
+                  cancel: "Cancelar",
+                  save: "Guardar",
+                  create: "Agregar",
+                },
+                errors: {
+                  name: "Informe el nombre del servicio.",
+                  duration: "Informe una duración válida (mínimo 5 minutos).",
+                  durationMax: "La duración no puede superar los 1440 minutos.",
+                },
+                toasts: {
+                  created: "¡Tipo de servicio creado con éxito!",
+                  updated: "¡Tipo de servicio actualizado con éxito!",
+                },
+                confirmDelete: "¿Eliminar el tipo de servicio {{name}}?",
+                confirmDeleteMessage:
+                  "Las citas existentes deberán elegir otro tipo.",
+              },
+              appointmentModal: {
+                title: {
+                  create: "Programar cita",
+                  edit: "Editar cita",
+                },
+                form: {
+                  customerName: "Nombre del cliente",
+                  customerContact: "Contacto (teléfono/correo)",
+                  serviceType: "Tipo de servicio",
+                  scheduledAt: "Fecha y hora",
+                  duration: "Duración (minutos)",
+                  durationHelper:
+                    "Dejar en blanco para usar la duración del tipo de servicio",
+                  status: "Estado",
+                  location: "Ubicación (opcional)",
+                  notes: "Notas",
+                },
+                actions: {
+                  cancel: "Cancelar",
+                  save: "Guardar",
+                  create: "Programar",
+                },
+                errors: {
+                  customerName: "Informe el nombre del cliente.",
+                  serviceType: "Seleccione un tipo de servicio.",
+                  scheduledAt: "Elija fecha y hora.",
+                  duration: "Informe una duración válida (mínimo 5 minutos).",
+                  durationMax: "La duración no puede superar los 1440 minutos.",
+                },
+                toasts: {
+                  created: "¡Cita creada con éxito!",
+                  updated: "¡Cita actualizada con éxito!",
+                },
+                confirmDelete: "¿Cancelar la cita con {{name}}?",
+                confirmDeleteMessage: "Esta acción no se puede deshacer.",
+              },
+            },
             reopen: "Reabrir",
             accept: "Aceptar",
           },
@@ -571,6 +586,8 @@ const messages = {
           "Este color ya está en uso, elija otro.",
         ERR_WAPP_GREETING_REQUIRED:
           "El mensaje de saludo es obligatorio cuando hay más de una cola.",
+        ERR_INTERNAL_CHAT_EMPTY_MESSAGE:
+          "Escribe un mensaje antes de enviarlo.",
       },
     },
   },
