@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Paper,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardActions,
@@ -22,7 +21,7 @@ import {
   MoreVert as MoreVertIcon,
   Person as PersonIcon,
 } from "@material-ui/icons";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
 
@@ -86,6 +85,20 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.action.hover,
     },
   },
+  dragging: {
+    transform: "rotate(5deg)",
+    boxShadow: theme.shadows[8],
+  },
+  dropZone: {
+    minHeight: 200,
+    borderRadius: 8,
+    padding: 8,
+    transition: "background-color 0.2s ease",
+  },
+  dropZoneActive: {
+    backgroundColor: theme.palette.action.hover,
+    border: `2px dashed ${theme.palette.primary.main}`,
+  },
 }));
 
 const KanbanBoard = () => {
@@ -124,6 +137,74 @@ const KanbanBoard = () => {
       toast.success("Ticket movido com sucesso!");
     } catch (err) {
       toast.error("Erro ao mover ticket");
+    }
+  };
+
+  const handleDragEnd = async (result) => {
+    const { destination, source, draggableId } = result;
+
+    // Se não há destino, cancelar
+    if (!destination) {
+      return;
+    }
+
+    // Se o item foi solto no mesmo lugar, cancelar
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    // Encontrar o ticket sendo movido
+    const ticketId = draggableId.replace("ticket-", "");
+    const targetColumnId = destination.droppableId.replace("column-", "");
+    const newPosition = destination.index;
+
+    // Atualizar otimisticamente a UI
+    const newKanbanData = [...kanbanData];
+    let movedTicket = null;
+
+    // Remover ticket da coluna original
+    for (let board of newKanbanData) {
+      for (let column of board.columns) {
+        const ticketIndex = column.tickets.findIndex(
+          (t) => t.id.toString() === ticketId
+        );
+        if (ticketIndex !== -1) {
+          movedTicket = column.tickets.splice(ticketIndex, 1)[0];
+          break;
+        }
+      }
+      if (movedTicket) break;
+    }
+
+    // Adicionar ticket na nova coluna
+    for (let board of newKanbanData) {
+      const targetColumn = board.columns.find(
+        (c) => c.id.toString() === targetColumnId
+      );
+      if (targetColumn) {
+        targetColumn.tickets.splice(newPosition, 0, movedTicket);
+        break;
+      }
+    }
+
+    // Atualizar estado local
+    setKanbanData(newKanbanData);
+
+    // Fazer a chamada para o backend
+    try {
+      await api.post("/kanban/move-ticket", {
+        ticketId: parseInt(ticketId),
+        kanbanColumnId: parseInt(targetColumnId),
+        position: newPosition,
+      });
+      toast.success("Ticket movido com sucesso!");
+    } catch (err) {
+      toast.error("Erro ao mover ticket");
+      // Reverter mudanças em caso de erro
+      fetchKanbanData();
     }
   };
 
@@ -172,147 +253,205 @@ const KanbanBoard = () => {
       </MainHeader>
 
       <Paper className={classes.mainPaper}>
-        {kanbanData.length === 0 ? (
-          <Box textAlign="center" p={4}>
-            <Typography variant="h6" color="textSecondary">
-              Nenhum quadro Kanban encontrado
-            </Typography>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<AddIcon />}
-              onClick={() => setDialogOpen(true)}
-              style={{ marginTop: 16 }}
-            >
-              Criar Primeiro Quadro
-            </Button>
-          </Box>
-        ) : (
-          kanbanData.map((board) => (
-            <Box key={board.id} mb={4}>
-              <Typography variant="h5" gutterBottom>
-                {board.name}
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {kanbanData.length === 0 ? (
+            <Box textAlign="center" p={4}>
+              <Typography variant="h6" color="textSecondary">
+                Nenhum quadro Kanban encontrado
               </Typography>
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={<AddIcon />}
+                onClick={() => setDialogOpen(true)}
+                style={{ marginTop: 16 }}
+              >
+                Criar Primeiro Quadro
+              </Button>
+            </Box>
+          ) : (
+            kanbanData.map((board) => (
+              <Box key={board.id} mb={4}>
+                <Typography variant="h5" gutterBottom>
+                  {board.name}
+                </Typography>
 
-              <Box className={classes.kanbanBoard}>
-                {board.columns?.map((column) => (
-                  <Paper key={column.id} className={classes.kanbanColumn}>
-                    <Box
-                      className={classes.columnHeader}
-                      style={{ backgroundColor: column.color + "20" }}
-                    >
-                      <Box display="flex" alignItems="center">
-                        <Box
-                          width={12}
-                          height={12}
-                          borderRadius="50%"
-                          bgcolor={column.color}
-                          mr={1}
-                        />
-                        <Typography variant="subtitle1" fontWeight="bold">
-                          {column.name}
-                        </Typography>
-                        <Chip
-                          size="small"
-                          label={column.tickets?.length || 0}
-                          style={{ marginLeft: 8 }}
-                        />
+                <Box className={classes.kanbanBoard}>
+                  {board.columns?.map((column) => (
+                    <Paper key={column.id} className={classes.kanbanColumn}>
+                      <Box
+                        className={classes.columnHeader}
+                        style={{ backgroundColor: column.color + "20" }}
+                      >
+                        <Box display="flex" alignItems="center">
+                          <Box
+                            width={12}
+                            height={12}
+                            borderRadius="50%"
+                            bgcolor={column.color}
+                            mr={1}
+                          />
+                          <Typography variant="subtitle1" fontWeight="bold">
+                            {column.name}
+                          </Typography>
+                          <Chip
+                            size="small"
+                            label={column.tickets?.length || 0}
+                            style={{ marginLeft: 8 }}
+                          />
+                        </Box>
+                        <IconButton size="small">
+                          <MoreVertIcon />
+                        </IconButton>
                       </Box>
-                      <IconButton size="small">
-                        <MoreVertIcon />
-                      </IconButton>
-                    </Box>
 
-                    <Box
-                      minHeight={200}
-                      style={{
-                        borderRadius: 8,
-                        padding: 8,
-                      }}
-                    >
-                      {column.tickets?.map((ticket, index) => (
-                        <Card key={ticket.id} className={classes.ticketCard}>
-                          <CardContent className={classes.ticketContent}>
-                            <Typography variant="body2" gutterBottom>
-                              #{ticket.id} - {ticket.contact?.name}
-                            </Typography>
-                            <Typography
-                              variant="caption"
-                              color="textSecondary"
-                              noWrap
-                            >
-                              {ticket.lastMessage}
-                            </Typography>
-                            <Box className={classes.ticketMeta}>
-                              <Chip
-                                size="small"
-                                label={ticket.status}
-                                color={
-                                  ticket.status === "open"
-                                    ? "primary"
-                                    : "default"
-                                }
-                              />
-                              {ticket.user && (
-                                <Avatar style={{ width: 24, height: 24 }}>
-                                  <PersonIcon style={{ fontSize: 16 }} />
-                                </Avatar>
-                              )}
-                            </Box>
-                          </CardContent>
-                          <CardActions
+                      <Droppable droppableId={`column-${column.id}`}>
+                        {(provided, snapshot) => (
+                          <Box
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`${classes.dropZone} ${
+                              snapshot.isDraggingOver
+                                ? classes.dropZoneActive
+                                : ""
+                            }`}
+                            minHeight={200}
                             style={{
+                              borderRadius: 8,
                               padding: 8,
-                              justifyContent: "space-between",
+                              backgroundColor: snapshot.isDraggingOver
+                                ? "rgba(63, 81, 181, 0.08)"
+                                : "transparent",
                             }}
                           >
-                            <Typography variant="caption" color="textSecondary">
-                              Mover para:
-                            </Typography>
-                            <Box>
-                              {board.columns
-                                ?.filter((col) => col.id !== column.id)
-                                .map((targetColumn) => (
-                                  <Button
-                                    key={targetColumn.id}
-                                    size="small"
+                            {column.tickets?.map((ticket, index) => (
+                              <Draggable
+                                key={ticket.id}
+                                draggableId={`ticket-${ticket.id}`}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <Card
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className={`${classes.ticketCard} ${
+                                      snapshot.isDragging
+                                        ? classes.dragging
+                                        : ""
+                                    }`}
                                     style={{
-                                      minWidth: 32,
-                                      marginLeft: 4,
-                                      backgroundColor:
-                                        targetColumn.color + "20",
-                                      color: targetColumn.color,
+                                      ...provided.draggableProps.style,
+                                      transform: snapshot.isDragging
+                                        ? `${provided.draggableProps.style?.transform} rotate(5deg)`
+                                        : provided.draggableProps.style
+                                            ?.transform,
                                     }}
-                                    onClick={() =>
-                                      handleMoveTicket(
-                                        ticket.id,
-                                        targetColumn.id,
-                                        0
-                                      )
-                                    }
                                   >
-                                    {targetColumn.name.substring(0, 3)}
-                                  </Button>
-                                ))}
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      ))}
+                                    <CardContent
+                                      className={classes.ticketContent}
+                                    >
+                                      <Typography variant="body2" gutterBottom>
+                                        #{ticket.id} - {ticket.contact?.name}
+                                      </Typography>
+                                      <Typography
+                                        variant="caption"
+                                        color="textSecondary"
+                                        noWrap
+                                      >
+                                        {ticket.lastMessage}
+                                      </Typography>
+                                      <Box className={classes.ticketMeta}>
+                                        <Chip
+                                          size="small"
+                                          label={ticket.status}
+                                          color={
+                                            ticket.status === "open"
+                                              ? "primary"
+                                              : "default"
+                                          }
+                                        />
+                                        {ticket.user && (
+                                          <Avatar
+                                            style={{ width: 24, height: 24 }}
+                                          >
+                                            <PersonIcon
+                                              style={{ fontSize: 16 }}
+                                            />
+                                          </Avatar>
+                                        )}
+                                      </Box>
+                                    </CardContent>
+                                    <CardActions
+                                      style={{
+                                        padding: 8,
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Typography
+                                        variant="caption"
+                                        color="textSecondary"
+                                      >
+                                        Mover para:
+                                      </Typography>
+                                      <Box>
+                                        {board.columns
+                                          ?.filter(
+                                            (col) => col.id !== column.id
+                                          )
+                                          .map((targetColumn) => (
+                                            <Button
+                                              key={targetColumn.id}
+                                              size="small"
+                                              style={{
+                                                minWidth: 32,
+                                                marginLeft: 4,
+                                                backgroundColor:
+                                                  targetColumn.color + "20",
+                                                color: targetColumn.color,
+                                              }}
+                                              onClick={() =>
+                                                handleMoveTicket(
+                                                  ticket.id,
+                                                  targetColumn.id,
+                                                  0
+                                                )
+                                              }
+                                            >
+                                              {targetColumn.name.substring(
+                                                0,
+                                                3
+                                              )}
+                                            </Button>
+                                          ))}
+                                      </Box>
+                                    </CardActions>
+                                  </Card>
+                                )}
+                              </Draggable>
+                            ))}
 
-                      {column.tickets?.length === 0 && (
-                        <Box className={classes.addTicketArea}>
-                          <Typography variant="caption" color="textSecondary">
-                            Nenhum ticket nesta coluna
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                  </Paper>
-                ))}
+                            {column.tickets?.length === 0 && (
+                              <Box className={classes.addTicketArea}>
+                                <Typography
+                                  variant="caption"
+                                  color="textSecondary"
+                                >
+                                  Nenhum ticket nesta coluna
+                                </Typography>
+                              </Box>
+                            )}
+                            {provided.placeholder}
+                          </Box>
+                        )}
+                      </Droppable>
+                    </Paper>
+                  ))}
+                </Box>
               </Box>
-            </Box>
-          ))
-        )}
+            ))
+          )}
+        </DragDropContext>
       </Paper>
 
       {/* Dialog para criar novo quadro */}
